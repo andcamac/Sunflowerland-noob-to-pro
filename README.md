@@ -31,33 +31,6 @@
 
 ---
 
-## 🚀 Deploy to GitHub Pages (5 minutes)
-
-### Option 1 — GitHub Web Interface (Easiest)
-
-1. Click **"Use this template"** or **fork** this repository
-2. Go to your repo → **Settings** → **Pages**
-3. Under **Source**, select `main` branch → `/ (root)` folder
-4. Click **Save**
-5. Your site will be live at `https://YOUR-USERNAME.github.io/sunflower-land-guide`
-
-### Option 2 — Git CLI
-
-```bash
-# Clone the repo
-git clone https://github.com/YOUR-USERNAME/sunflower-land-guide.git
-cd sunflower-land-guide
-
-# Make changes, then push
-git add .
-git commit -m "Update guide"
-git push origin main
-```
-
-GitHub Pages will automatically rebuild on every push to `main`.
-
----
-
 ## 📁 File Structure
 
 ```
