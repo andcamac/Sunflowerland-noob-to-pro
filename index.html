@@ -1,0 +1,2264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🌻 SFL Master Guide — Noob to Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* ===== ROOT VARIABLES ===== */
+:root {
+  --gold: #F4C430;
+  --gold-deep: #D4A017;
+  --sunflower: #FFD700;
+  --earth: #6B4F2A;
+  --earth-light: #8B6914;
+  --green: #4A7A2C;
+  --green-light: #6AAF3D;
+  --sky: #87CEEB;
+  --sky-deep: #5BA3D0;
+  --dark: #1E0F05;
+  --dark2: #2C1A0E;
+  --cream: #FFF8DC;
+  --cream2: #FFF3CC;
+  --panel: rgba(255,243,200,0.97);
+  --panel-border: #C8952A;
+  --red: #C0392B;
+  --red-light: #E74C3C;
+  --blue: #2980B9;
+  --purple: #7D3C98;
+  --pixel: 'Press Start 2P', monospace;
+  --body: 'Nunito', sans-serif;
+  --shadow: 4px 4px 0px #2C1A0E;
+  --shadow-sm: 2px 2px 0px #2C1A0E;
+}
+
+/* ===== RESET & BASE ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--body);
+  background: #1E0F05;
+  color: var(--dark);
+  overflow-x: hidden;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20'%3E%3Ccircle cx='10' cy='10' r='4' fill='%23F4C430'/%3E%3C/svg%3E") 10 10, auto;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--dark2); }
+::-webkit-scrollbar-thumb { background: var(--gold); border: 2px solid var(--dark2); }
+
+/* ===== PIXEL BORDER MIXIN ===== */
+.pixel-box {
+  border: 3px solid var(--panel-border);
+  box-shadow: var(--shadow);
+  image-rendering: pixelated;
+}
+
+/* ===== LANG TOGGLE BAR ===== */
+#top-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--dark2);
+  border-bottom: 3px solid var(--gold);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 24px;
+}
+#top-bar .brand {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.lang-toggle {
+  display: flex; gap: 6px; align-items: center;
+}
+.lang-btn {
+  font-family: var(--pixel);
+  font-size: 8px;
+  padding: 6px 12px;
+  border: 2px solid var(--gold);
+  background: transparent;
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 1px;
+}
+.lang-btn.active, .lang-btn:hover {
+  background: var(--gold);
+  color: var(--dark);
+}
+.nav-links { display: flex; gap: 16px; align-items: center; }
+.nav-links a {
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--cream);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--gold); }
+
+/* ===== HERO SECTION ===== */
+#hero {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at 50% 0%, #3A6B1A 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, #5A3010 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, #1A3A6B 0%, transparent 50%),
+    linear-gradient(180deg, #0D2B0A 0%, #1E3A08 40%, #87CEEB 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 100px 24px 60px;
+  position: relative; overflow: hidden;
+}
+
+/* Pixel ground strip */
+#hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+  background: repeating-linear-gradient(
+    90deg,
+    #4A7A2C 0px, #4A7A2C 16px,
+    #5A9A3C 16px, #5A9A3C 32px,
+    #3A6A1C 32px, #3A6A1C 48px
+  );
+  border-top: 4px solid #2C5A18;
+}
+
+.floating-sun {
+  position: absolute; top: 80px; right: 10%;
+  font-size: 80px;
+  animation: floatSun 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px rgba(255,215,0,0.6));
+}
+@keyframes floatSun {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.hero-sunflowers {
+  position: absolute; bottom: 55px; left: 0; right: 0;
+  display: flex; justify-content: space-around;
+  pointer-events: none;
+}
+.hero-sf {
+  font-size: clamp(30px, 5vw, 60px);
+  animation: waveSF 3s ease-in-out infinite;
+}
+.hero-sf:nth-child(2) { animation-delay: 0.3s; }
+.hero-sf:nth-child(3) { animation-delay: 0.6s; }
+.hero-sf:nth-child(4) { animation-delay: 0.9s; }
+.hero-sf:nth-child(5) { animation-delay: 1.2s; }
+.hero-sf:nth-child(6) { animation-delay: 1.5s; }
+.hero-sf:nth-child(7) { animation-delay: 1.8s; }
+@keyframes waveSF {
+  0%, 100% { transform: rotate(-5deg) translateY(0); }
+  50% { transform: rotate(5deg) translateY(-8px); }
+}
+
+.hero-clouds {
+  position: absolute; top: 100px; left: 0; right: 0;
+  display: flex; justify-content: space-around;
+  pointer-events: none;
+}
+.cloud {
+  font-size: 40px;
+  opacity: 0.7;
+  animation: driftCloud 20s linear infinite;
+}
+.cloud:nth-child(2) { animation-delay: -8s; animation-duration: 25s; }
+.cloud:nth-child(3) { animation-delay: -15s; animation-duration: 18s; }
+@keyframes driftCloud {
+  0% { transform: translateX(-50px); }
+  100% { transform: translateX(50px); }
+}
+
+.hero-title {
+  font-family: var(--pixel);
+  font-size: clamp(14px, 3.5vw, 28px);
+  color: var(--sunflower);
+  text-shadow: 3px 3px 0 var(--earth), 0 0 40px rgba(255,215,0,0.4);
+  line-height: 1.8;
+  margin-bottom: 16px;
+  letter-spacing: 2px;
+  position: relative; z-index: 2;
+}
+.hero-sub {
+  font-family: var(--pixel);
+  font-size: clamp(7px, 1.5vw, 11px);
+  color: var(--cream);
+  margin-bottom: 32px;
+  letter-spacing: 1px;
+  line-height: 2;
+  position: relative; z-index: 2;
+}
+
+.hero-badges {
+  display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+  margin-bottom: 40px; position: relative; z-index: 2;
+}
+.badge {
+  background: var(--dark2);
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--pixel);
+  font-size: 7px;
+  padding: 8px 14px;
+  letter-spacing: 1px;
+  box-shadow: var(--shadow-sm);
+}
+
+.cta-btn {
+  display: inline-block;
+  font-family: var(--pixel);
+  font-size: 10px;
+  padding: 16px 32px;
+  background: var(--gold);
+  color: var(--dark);
+  border: 3px solid var(--earth);
+  box-shadow: 4px 4px 0 var(--earth);
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 1px;
+  position: relative; z-index: 2;
+  transition: all 0.1s;
+  animation: pulseBtn 2s ease-in-out infinite;
+}
+.cta-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--earth);
+}
+.cta-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--earth);
+}
+@keyframes pulseBtn {
+  0%, 100% { box-shadow: 4px 4px 0 var(--earth); }
+  50% { box-shadow: 4px 4px 12px rgba(244,196,48,0.5), 4px 4px 0 var(--earth); }
+}
+
+/* ===== SECTION BASE ===== */
+.section {
+  padding: 80px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.section-wide {
+  padding: 80px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-bg {
+  background: linear-gradient(180deg, #1E0F05 0%, #2C1A0E 50%, #1E0F05 100%);
+}
+.section-bg2 {
+  background: linear-gradient(180deg, #0A1F05 0%, #122B08 100%);
+}
+.section-bg3 {
+  background: linear-gradient(180deg, #0A0F20 0%, #122038 100%);
+}
+
+.section-label {
+  font-family: var(--pixel);
+  font-size: 8px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+.section-title {
+  font-family: var(--pixel);
+  font-size: clamp(14px, 2.5vw, 22px);
+  color: var(--cream);
+  text-shadow: 2px 2px 0 var(--earth);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+.section-desc {
+  font-family: var(--body);
+  font-size: 16px;
+  color: var(--cream);
+  line-height: 1.8;
+  opacity: 0.85;
+  max-width: 700px;
+  margin-bottom: 40px;
+}
+
+/* ===== ABOUT CARDS ===== */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+}
+.about-card {
+  background: var(--panel);
+  border: 3px solid var(--panel-border);
+  box-shadow: var(--shadow);
+  padding: 24px 20px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+.about-card:hover { transform: translateY(-4px); }
+.about-card .icon { font-size: 42px; margin-bottom: 12px; display: block; }
+.about-card h3 {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--earth);
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+  line-height: 1.6;
+}
+.about-card p {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--dark2);
+  line-height: 1.7;
+}
+
+/* ===== ROADMAP ===== */
+#roadmap-section {
+  padding: 80px 0;
+  background: linear-gradient(180deg, #0A1505 0%, #162808 60%, #0A1505 100%);
+}
+.roadmap-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+.roadmap-header { text-align: center; margin-bottom: 60px; }
+
+.roadmap-timeline {
+  position: relative;
+}
+.roadmap-timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0; bottom: 0;
+  width: 4px;
+  background: repeating-linear-gradient(
+    180deg,
+    var(--gold) 0px, var(--gold) 12px,
+    transparent 12px, transparent 20px
+  );
+  transform: translateX(-50%);
+}
+
+/* Stage cards */
+.stage {
+  display: flex;
+  margin-bottom: 48px;
+  position: relative;
+}
+.stage:nth-child(odd) { flex-direction: row; }
+.stage:nth-child(even) { flex-direction: row-reverse; }
+
+.stage-connector {
+  position: absolute;
+  left: 50%;
+  top: 28px;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+.stage-orb {
+  width: 56px; height: 56px;
+  border-radius: 0;
+  border: 3px solid var(--gold);
+  background: var(--dark2);
+  box-shadow: 0 0 0 4px var(--dark2), var(--shadow);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.stage-orb:hover, .stage.open .stage-orb {
+  background: var(--gold);
+  transform: scale(1.1);
+}
+
+.stage-content {
+  width: calc(50% - 48px);
+  background: var(--panel);
+  border: 3px solid var(--panel-border);
+  box-shadow: var(--shadow);
+  padding: 0;
+  transition: all 0.3s;
+}
+.stage:nth-child(odd) .stage-content { margin-right: auto; margin-left: 0; }
+.stage:nth-child(even) .stage-content { margin-left: auto; margin-right: 0; }
+
+.stage-header {
+  padding: 16px 20px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer;
+  background: rgba(244,196,48,0.12);
+  border-bottom: 2px solid var(--panel-border);
+  transition: background 0.2s;
+}
+.stage-header:hover { background: rgba(244,196,48,0.22); }
+
+.stage-level {
+  font-family: var(--pixel);
+  font-size: 7px;
+  background: var(--earth);
+  color: var(--gold);
+  padding: 4px 8px;
+  white-space: nowrap;
+  letter-spacing: 1px;
+}
+.stage-name {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--earth);
+  letter-spacing: 1px;
+  line-height: 1.5;
+  flex: 1;
+}
+.stage-arrow {
+  font-size: 14px;
+  color: var(--earth);
+  transition: transform 0.3s;
+}
+.stage.open .stage-arrow { transform: rotate(180deg); }
+
+.stage-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+.stage.open .stage-body { max-height: 2000px; }
+
+.stage-body-inner { padding: 20px; }
+
+.xp-bar-wrap {
+  margin-bottom: 16px;
+}
+.xp-label {
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--earth-light);
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+.xp-bar {
+  height: 14px;
+  background: var(--dark2);
+  border: 2px solid var(--earth);
+  position: relative;
+  overflow: hidden;
+}
+.xp-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-deep), var(--sunflower));
+  transition: width 0.8s ease;
+  position: relative;
+}
+.xp-fill::after {
+  content: '';
+  position: absolute; top: 0; right: 0; bottom: 0; width: 8px;
+  background: rgba(255,255,255,0.4);
+}
+
+.stage-tasks { list-style: none; margin: 12px 0; }
+.stage-tasks li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--dark2);
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(200,149,42,0.3);
+  line-height: 1.5;
+}
+.stage-tasks li:last-child { border-bottom: none; }
+.task-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+.stage-tips {
+  background: rgba(74,122,44,0.12);
+  border-left: 4px solid var(--green-light);
+  padding: 12px 14px;
+  margin-top: 12px;
+  border-radius: 0 4px 4px 0;
+}
+.stage-tips p {
+  font-family: var(--body);
+  font-size: 13px;
+  color: var(--dark2);
+  line-height: 1.7;
+}
+.stage-tips strong { color: var(--green); }
+
+.profit-badge {
+  display: inline-block;
+  font-family: var(--pixel);
+  font-size: 7px;
+  padding: 4px 10px;
+  background: var(--green);
+  color: var(--cream);
+  letter-spacing: 1px;
+  margin: 8px 4px 8px 0;
+}
+.profit-badge.gold { background: var(--gold-deep); color: var(--dark); }
+.profit-badge.red { background: var(--red); }
+.profit-badge.blue { background: var(--blue); }
+.profit-badge.purple { background: var(--purple); }
+
+/* ===== COW DEEP DIVE ===== */
+#cowdive {
+  background: linear-gradient(180deg, #1A0A00 0%, #2C1000 50%, #1A0A00 100%);
+  padding: 80px 0;
+}
+.cowdive-inner { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+.cowdive-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+@media (max-width: 768px) { .cowdive-grid { grid-template-columns: 1fr; } }
+
+.cow-panel {
+  background: var(--panel);
+  border: 3px solid var(--panel-border);
+  box-shadow: var(--shadow);
+  padding: 24px;
+}
+.cow-panel h3 {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--earth);
+  margin-bottom: 16px;
+  letter-spacing: 1px;
+  line-height: 1.6;
+  border-bottom: 2px solid var(--panel-border);
+  padding-bottom: 10px;
+}
+
+/* Profit Calculator */
+.calc-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(200,149,42,0.3);
+}
+.calc-label {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--dark2);
+}
+.calc-val {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--green);
+}
+.calc-val.gold { color: var(--gold-deep); }
+.calc-val.red { color: var(--red); }
+
+.calc-total {
+  margin-top: 12px;
+  background: var(--dark2);
+  padding: 12px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.calc-total .label {
+  font-family: var(--pixel);
+  font-size: 8px;
+  color: var(--cream);
+  letter-spacing: 1px;
+}
+.calc-total .val {
+  font-family: var(--pixel);
+  font-size: 12px;
+  color: var(--gold);
+}
+
+/* Slider */
+.slider-wrap { margin: 12px 0; }
+.slider-wrap label {
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--earth-light);
+  display: block;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+.sfl-range {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 12px;
+  background: var(--dark2);
+  border: 2px solid var(--earth);
+  outline: none;
+  cursor: pointer;
+}
+.sfl-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px; height: 20px;
+  background: var(--gold);
+  border: 2px solid var(--earth);
+  cursor: pointer;
+}
+.slider-val {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--gold);
+  text-align: right;
+  margin-top: 4px;
+}
+
+/* Chain diagram */
+.chain {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
+  margin: 12px 0;
+}
+.chain-item {
+  background: var(--dark2);
+  color: var(--cream);
+  font-family: var(--pixel);
+  font-size: 7px;
+  padding: 8px 12px;
+  letter-spacing: 1px;
+  text-align: center;
+  line-height: 1.6;
+}
+.chain-item.highlight { background: var(--gold); color: var(--dark); }
+.chain-arrow {
+  font-size: 18px;
+  color: var(--gold);
+  font-weight: 900;
+}
+
+/* Skills grid */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.skill-item {
+  background: var(--dark2);
+  padding: 10px 12px;
+  border-left: 3px solid var(--gold);
+}
+.skill-item .sname {
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  display: block;
+  line-height: 1.5;
+}
+.skill-item .sdesc {
+  font-family: var(--body);
+  font-size: 12px;
+  color: var(--cream);
+  opacity: 0.85;
+}
+
+/* ===== DAILY CHECKLIST ===== */
+#daily {
+  background: linear-gradient(180deg, #080C14 0%, #0F1C2E 100%);
+  padding: 80px 0;
+}
+.daily-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+.session-block {
+  background: var(--panel);
+  border: 3px solid var(--panel-border);
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
+}
+.session-header {
+  background: var(--dark2);
+  padding: 14px 20px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 2px solid var(--panel-border);
+}
+.session-time {
+  font-family: var(--pixel);
+  font-size: 8px;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.session-name {
+  font-family: var(--pixel);
+  font-size: 8px;
+  color: var(--cream);
+  letter-spacing: 1px;
+}
+.session-dur {
+  margin-left: auto;
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--green-light);
+  letter-spacing: 1px;
+}
+
+.checklist { list-style: none; padding: 16px 20px; }
+.checklist li {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px dashed rgba(200,149,42,0.3);
+  cursor: pointer;
+  transition: background 0.15s;
+  border-radius: 2px;
+  padding-left: 4px;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li:hover { background: rgba(244,196,48,0.07); }
+
+.check-box {
+  width: 18px; height: 18px;
+  border: 2px solid var(--earth);
+  background: white;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  transition: all 0.2s;
+  margin-top: 2px;
+}
+.checklist li.done .check-box {
+  background: var(--green);
+  border-color: var(--green);
+  color: white;
+}
+.checklist li.done .check-text {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+.check-text {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--dark2);
+  line-height: 1.5;
+  flex: 1;
+}
+.check-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.priority-tag {
+  font-family: var(--pixel);
+  font-size: 6px;
+  padding: 2px 6px;
+  background: var(--red);
+  color: white;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.priority-tag.med { background: var(--earth-light); }
+.priority-tag.low { background: var(--sky-deep); }
+
+.progress-wrap {
+  padding: 12px 20px;
+  background: rgba(244,196,48,0.07);
+  border-top: 2px solid var(--panel-border);
+  display: flex; align-items: center; gap: 12px;
+}
+.progress-label {
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--earth);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.progress-bar {
+  flex: 1;
+  height: 12px;
+  background: var(--dark2);
+  border: 2px solid var(--earth);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--green-light));
+  transition: width 0.4s ease;
+}
+.progress-count {
+  font-family: var(--pixel);
+  font-size: 8px;
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+/* ===== SEASON GUIDE ===== */
+#seasons {
+  background: linear-gradient(180deg, #0A1A00 0%, #152808 100%);
+  padding: 80px 0;
+}
+.seasons-inner { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+
+.season-tabs {
+  display: flex; gap: 0; margin-bottom: 0;
+  border: 3px solid var(--panel-border);
+  box-shadow: var(--shadow);
+}
+.season-tab {
+  flex: 1;
+  font-family: var(--pixel);
+  font-size: 8px;
+  padding: 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  letter-spacing: 1px;
+  border: none;
+  transition: all 0.2s;
+  color: var(--cream);
+  border-right: 2px solid var(--panel-border);
+}
+.season-tab:last-child { border-right: none; }
+.season-tab[data-season="spring"] { background: #2D5A1B; }
+.season-tab[data-season="summer"] { background: #8B6900; }
+.season-tab[data-season="autumn"] { background: #7A3000; }
+.season-tab[data-season="winter"] { background: #1A3A6B; }
+.season-tab.active { filter: brightness(1.4); outline: 3px solid var(--gold); outline-offset: -3px; }
+.season-tab:hover { filter: brightness(1.2); }
+
+.season-panel {
+  display: none;
+  background: var(--panel);
+  border: 3px solid var(--panel-border);
+  border-top: none;
+  box-shadow: var(--shadow);
+  padding: 28px;
+}
+.season-panel.active { display: block; }
+
+.season-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+.season-col h4 {
+  font-family: var(--pixel);
+  font-size: 8px;
+  color: var(--earth);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--panel-border);
+  line-height: 1.6;
+}
+.season-col ul { list-style: none; }
+.season-col li {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--dark2);
+  padding: 4px 0;
+  display: flex; align-items: center; gap: 6px;
+}
+.season-warning {
+  background: rgba(192,57,43,0.1);
+  border-left: 4px solid var(--red);
+  padding: 10px 14px;
+  margin-top: 16px;
+}
+.season-warning p {
+  font-family: var(--body);
+  font-size: 13px;
+  color: var(--dark2);
+  line-height: 1.7;
+}
+.season-power {
+  background: rgba(74,122,44,0.15);
+  border-left: 4px solid var(--green-light);
+  padding: 10px 14px;
+  margin-top: 12px;
+}
+.season-power p {
+  font-family: var(--body);
+  font-size: 13px;
+  color: var(--dark2);
+  line-height: 1.7;
+}
+
+/* ===== PROFIT TABLE ===== */
+#profit {
+  background: linear-gradient(180deg, #0D0500 0%, #1E0800 100%);
+  padding: 80px 0;
+}
+.profit-inner { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+.profit-table-wrap {
+  overflow-x: auto;
+  border: 3px solid var(--panel-border);
+  box-shadow: var(--shadow);
+}
+.profit-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--panel);
+}
+.profit-table th {
+  background: var(--dark2);
+  color: var(--gold);
+  font-family: var(--pixel);
+  font-size: 7px;
+  padding: 12px 14px;
+  text-align: left;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.profit-table td {
+  font-family: var(--body);
+  font-size: 14px;
+  color: var(--dark2);
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(200,149,42,0.3);
+}
+.profit-table tr:last-child td { border-bottom: none; }
+.profit-table tr:hover td { background: rgba(244,196,48,0.08); }
+.profit-table tr.top td { background: rgba(255,215,0,0.15); }
+
+.rank-num {
+  font-family: var(--pixel);
+  font-size: 10px;
+  color: var(--earth);
+}
+.rank-medal { font-size: 20px; }
+.flower-val {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--green);
+}
+.dollar-val {
+  font-family: var(--pixel);
+  font-size: 9px;
+  color: var(--gold-deep);
+}
+.time-val {
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: var(--blue);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--dark);
+  border-top: 4px solid var(--gold);
+  padding: 40px 24px;
+  text-align: center;
+}
+footer p {
+  font-family: var(--pixel);
+  font-size: 7px;
+  color: rgba(255,248,220,0.5);
+  letter-spacing: 1px;
+  line-height: 2.2;
+}
+footer .heart { color: var(--gold); }
+.footer-sunflowers {
+  font-size: 30px;
+  letter-spacing: 8px;
+  margin-bottom: 16px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .roadmap-timeline::before { left: 28px; }
+  .stage { flex-direction: column !important; }
+  .stage-connector { left: 28px; }
+  .stage-content { width: calc(100% - 60px) !important; margin-left: 60px !important; }
+  .nav-links { display: none; }
+  .top-bar .brand { font-size: 7px; }
+  .season-tab { font-size: 6px; padding: 10px 4px; }
+  .cowdive-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== ANIMATE ON SCROLL ===== */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== PIXEL DIVIDERS ===== */
+.pixel-divider {
+  height: 8px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--gold) 0px, var(--gold) 8px,
+    var(--earth) 8px, var(--earth) 16px
+  );
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative; cursor: help;
+}
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--dark2);
+  color: var(--cream);
+  font-family: var(--pixel);
+  font-size: 7px;
+  padding: 8px 12px;
+  white-space: nowrap;
+  border: 2px solid var(--gold);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 100;
+  letter-spacing: 1px;
+  box-shadow: 3px 3px 0 var(--earth);
+}
+.tooltip:hover::after { opacity: 1; }
+
+/* Blinking cursor */
+.blink { animation: blink 1s step-end infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* Pixel stars bg */
+.stars-bg {
+  position: relative;
+  overflow: hidden;
+}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP BAR ===== -->
+<div id="top-bar">
+  <div class="brand">🌻 SFL MASTER GUIDE</div>
+  <nav class="nav-links">
+    <a href="#about" data-i18n="nav.about">ABOUT</a>
+    <a href="#roadmap-section" data-i18n="nav.roadmap">ROADMAP</a>
+    <a href="#cowdive" data-i18n="nav.cows">COW GUIDE</a>
+    <a href="#daily" data-i18n="nav.daily">DAILY</a>
+    <a href="#seasons" data-i18n="nav.seasons">SEASONS</a>
+    <a href="#profit" data-i18n="nav.profit">PROFIT</a>
+  </nav>
+  <div class="lang-toggle">
+    <button class="lang-btn active" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+  </div>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="floating-sun">☀️</div>
+  <div class="hero-clouds">
+    <span class="cloud">☁️</span>
+    <span class="cloud">⛅</span>
+    <span class="cloud">☁️</span>
+  </div>
+  <div class="hero-title" data-i18n="hero.title">🌻 SUNFLOWER LAND<br>MASTER GUIDE 🌻</div>
+  <div class="hero-sub" data-i18n="hero.sub">FROM NOOB TO PRO — LEVEL 1 TO ENDGAME<br>THE ONLY GUIDE YOU NEED</div>
+  <div class="hero-badges">
+    <span class="badge">⭐ LEVEL 51+ STRATEGIES</span>
+    <span class="badge">🐄 COW DAIRY META</span>
+    <span class="badge">💰 MAXIMIZE FLOWER</span>
+    <span class="badge">🗺️ FULL ROADMAP</span>
+    <span class="badge">📅 DAILY ROUTINES</span>
+    <span class="badge">🌸 ALL SEASONS</span>
+  </div>
+  <a href="#about" class="cta-btn" data-i18n="hero.cta">▶ START YOUR JOURNEY</a>
+  <div class="hero-sunflowers">
+    <span class="hero-sf">🌻</span>
+    <span class="hero-sf">🌾</span>
+    <span class="hero-sf">🌻</span>
+    <span class="hero-sf">🌿</span>
+    <span class="hero-sf">🌻</span>
+    <span class="hero-sf">🌾</span>
+    <span class="hero-sf">🌻</span>
+  </div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about" style="background: linear-gradient(180deg,#1a0a00,#2c1200);">
+  <div class="section">
+    <span class="section-label" data-i18n="about.label">WHAT IS THIS GUIDE?</span>
+    <h2 class="section-title" data-i18n="about.title">EVERYTHING YOU NEED TO<br>MASTER SUNFLOWER LAND 🌻</h2>
+    <p class="section-desc" data-i18n="about.desc">Built by analyzing every game mechanic — farming, fishing, mining, animals, factions, minigames, markets and more. This is the definitive guide for players who want to turn their farm into a real profit machine.</p>
+    <div class="about-grid">
+      <div class="about-card fade-in">
+        <span class="icon">🗺️</span>
+        <h3 data-i18n="about.card1.title">NOOB → PRO ROADMAP</h3>
+        <p data-i18n="about.card1.desc">Step-by-step progression guide from your first seed to level 50+ endgame dominance. Every stage explained.</p>
+      </div>
+      <div class="about-card fade-in">
+        <span class="icon">🐄</span>
+        <h3 data-i18n="about.card2.title">COW DAIRY MASTERY</h3>
+        <p data-i18n="about.card2.desc">The #1 most profitable strategy in the game. Full deep-dive with interactive profit calculator and optimal skill build.</p>
+      </div>
+      <div class="about-card fade-in">
+        <span class="icon">📅</span>
+        <h3 data-i18n="about.card3.title">DAILY ROUTINES</h3>
+        <p data-i18n="about.card3.desc">Interactive daily checklists so you never miss a delivery, bounty or event. Optimized for 2 hours of play per day.</p>
+      </div>
+      <div class="about-card fade-in">
+        <span class="icon">🌸</span>
+        <h3 data-i18n="about.card4.title">SEASONAL STRATEGY</h3>
+        <p data-i18n="about.card4.desc">Know exactly what to plant, protect and prioritize in every season. Weather events, power moves and seasonal shields.</p>
+      </div>
+      <div class="about-card fade-in">
+        <span class="icon">💰</span>
+        <h3 data-i18n="about.card5.title">REAL PROFIT DATA</h3>
+        <p data-i18n="about.card5.desc">Market-adjusted rankings of every income source. Understand the 10% marketplace tax and how to work around it.</p>
+      </div>
+      <div class="about-card fade-in">
+        <span class="icon">⚔️</span>
+        <h3 data-i18n="about.card6.title">FACTIONS & EVENTS</h3>
+        <p data-i18n="about.card6.desc">When to join factions, how to earn Marks efficiently, and how to time NFT drops and auctions for maximum profit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- ===== ROADMAP ===== -->
+<section id="roadmap-section">
+  <div class="roadmap-inner">
+    <div class="roadmap-header">
+      <span class="section-label" data-i18n="roadmap.label">INTERACTIVE ROADMAP</span>
+      <h2 class="section-title" data-i18n="roadmap.title">YOUR JOURNEY: NOOB → PRO 🏆</h2>
+      <p class="section-desc" style="margin: 0 auto; text-align:center;" data-i18n="roadmap.desc">Click each stage to expand your goals, tasks and pro tips.</p>
+    </div>
+    <div class="roadmap-timeline">
+
+      <!-- STAGE 1 -->
+      <div class="stage fade-in" id="stage1">
+        <div class="stage-content">
+          <div class="stage-header" onclick="toggleStage('stage1')">
+            <span class="stage-level">LV 1-5</span>
+            <span class="stage-name" data-i18n="stage1.name">HUMBLE BEGINNINGS<br>🌱 FIRST SEEDS</span>
+            <span class="stage-arrow">▼</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-body-inner">
+              <div class="xp-bar-wrap">
+                <div class="xp-label" data-i18n="xp.progress">STAGE PROGRESS</div>
+                <div class="xp-bar"><div class="xp-fill" style="width:15%"></div></div>
+              </div>
+              <span class="profit-badge gold" data-i18n="badge.earnings">~5-15 FLOWER/WEEK</span>
+              <span class="profit-badge blue" data-i18n="badge.focus">FOCUS: EXPANSION</span>
+              <ul class="stage-tasks">
+                <li><span class="task-icon">🌻</span><span data-i18n="s1.t1">Plant sunflowers constantly — fastest XP per coin ratio at 1 min growth time</span></li>
+                <li><span class="task-icon">🪓</span><span data-i18n="s1.t2">Chop trees daily for wood — essential for every building and expansion</span></li>
+                <li><span class="task-icon">⛏️</span><span data-i18n="s1.t3">Mine Stone and Iron — unlock more resource nodes with every expansion</span></li>
+                <li><span class="task-icon">🏗️</span><span data-i18n="s1.t4">Prioritize land expansion over everything else — more plots = more power</span></li>
+                <li><span class="task-icon">🍳</span><span data-i18n="s1.t5">Build Firepit first — cook Pumpkin Soup for 600 XP/hr to level fast</span></li>
+                <li><span class="task-icon">📦</span><span data-i18n="s1.t6">Open Daily Chest every single day — builds habit and gives free rewards</span></li>
+              </ul>
+              <div class="stage-tips">
+                <p><strong data-i18n="tip.label">💡 PRO TIP:</strong> <span data-i18n="s1.tip">Don't sell resources yet — you need every stone, iron and wood for building. Only sell excess crops for coins. Your goal right now is to reach Level 10 as fast as possible to unlock FLOWER deliveries.</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stage-connector"><div class="stage-orb" onclick="toggleStage('stage1')">🌱</div></div>
+      </div>
+
+      <!-- STAGE 2 -->
+      <div class="stage fade-in" id="stage2">
+        <div class="stage-content">
+          <div class="stage-header" onclick="toggleStage('stage2')">
+            <span class="stage-level">LV 6-15</span>
+            <span class="stage-name" data-i18n="stage2.name">BUILDING YOUR EMPIRE<br>🏗️ FIRST FLOWER</span>
+            <span class="stage-arrow">▼</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-body-inner">
+              <div class="xp-bar-wrap">
+                <div class="xp-label" data-i18n="xp.progress">STAGE PROGRESS</div>
+                <div class="xp-bar"><div class="xp-fill" style="width:30%"></div></div>
+              </div>
+              <span class="profit-badge gold">~15-30 FLOWER/WEEK</span>
+              <span class="profit-badge blue" data-i18n="badge.focus2">FOCUS: DELIVERIES</span>
+              <ul class="stage-tasks">
+                <li><span class="task-icon">🏠</span><span data-i18n="s2.t1">Build Kitchen + Bakery — unlock the best delivery foods and top XP meals</span></li>
+                <li><span class="task-icon">💐</span><span data-i18n="s2.t2">Unlock Petal Island at Level 12 — get flowers, beehives and crimstone access</span></li>
+                <li><span class="task-icon">💰</span><span data-i18n="s2.t3">At Level 10: Start daily FLOWER NPC deliveries (Grimbly first)</span></li>
+                <li><span class="task-icon">🐔</span><span data-i18n="s2.t4">Build Hen House — chickens for eggs, eggs for cakes, cakes for FLOWER</span></li>
+                <li><span class="task-icon">🎭</span><span data-i18n="s2.t5">Join a faction at Level 7 — join 4th place faction (cheapest: 5 FLOWER)</span></li>
+                <li><span class="task-icon">🐟</span><span data-i18n="s2.t6">Build a Composter for bait — start fishing for cooking ingredients</span></li>
+              </ul>
+              <div class="stage-tips">
+                <p><strong data-i18n="tip.label">💡 PRO TIP:</strong> <span data-i18n="s2.tip">Always keep 4 of each cooked food in storage. The moment an NPC requests it, you can deliver instantly — maximizing your time for other activities. This "standing inventory" strategy is used by all top players.</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stage-connector"><div class="stage-orb" onclick="toggleStage('stage2')">🏗️</div></div>
+      </div>
+
+      <!-- STAGE 3 -->
+      <div class="stage fade-in" id="stage3">
+        <div class="stage-content">
+          <div class="stage-header" onclick="toggleStage('stage3')">
+            <span class="stage-level">LV 16-29</span>
+            <span class="stage-name" data-i18n="stage3.name">INTERMEDIATE FARMER<br>🌾 SYSTEMS THINKING</span>
+            <span class="stage-arrow">▼</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-body-inner">
+              <div class="xp-bar-wrap">
+                <div class="xp-label" data-i18n="xp.progress">STAGE PROGRESS</div>
+                <div class="xp-bar"><div class="xp-fill" style="width:50%"></div></div>
+              </div>
+              <span class="profit-badge gold">~30-60 FLOWER/WEEK</span>
+              <span class="profit-badge blue">FOCUS: CHAINS</span>
+              <ul class="stage-tasks">
+                <li><span class="task-icon">🐄</span><span data-i18n="s3.t1">Build Barn + buy Cows — start the Milk→Leather production chain NOW</span></li>
+                <li><span class="task-icon">🌸</span><span data-i18n="s3.t2">Max out beehives alongside flower beds — wait for Bee Swarm event (+0.2 yield)</span></li>
+                <li><span class="task-icon">🎁</span><span data-i18n="s3.t3">Gift flowers daily to top 5 NPCs (Cornwell, Tywin, Finn, Raven, Bert) for Luxury Keys</span></li>
+                <li><span class="task-icon">🏖️</span><span data-i18n="s3.t4">Begin Treasure Island digging — maintain your daily streak (Day 11 = massive rewards)</span></li>
+                <li><span class="task-icon">🔄</span><span data-i18n="s3.t5">Set up all 5 cooking buildings — unlock all 6 FLOWER delivery NPCs by Level 25</span></li>
+                <li><span class="task-icon">🛡️</span><span data-i18n="s3.t6">Buy weather protection items — place Tornado Pinwheel, Mangrove BEFORE events</span></li>
+              </ul>
+              <div class="stage-tips">
+                <p><strong data-i18n="tip.label">💡 PRO TIP:</strong> <span data-i18n="s3.tip">This is when the game opens up. Start thinking in CHAINS, not individual activities. Cows produce Milk → feeds Bakery → produces Cakes → feeds FLOWER deliveries. Every resource should flow into the next system. Don't sell raw resources.</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stage-connector"><div class="stage-orb" onclick="toggleStage('stage3')">🌾</div></div>
+      </div>
+
+      <!-- STAGE 4 -->
+      <div class="stage fade-in" id="stage4">
+        <div class="stage-content">
+          <div class="stage-header" onclick="toggleStage('stage4')">
+            <span class="stage-level">LV 30-40</span>
+            <span class="stage-name" data-i18n="stage4.name">ADVANCED OPERATOR<br>🏜️ DESERT ISLAND</span>
+            <span class="stage-arrow">▼</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-body-inner">
+              <div class="xp-bar-wrap">
+                <div class="xp-label" data-i18n="xp.progress">STAGE PROGRESS</div>
+                <div class="xp-bar"><div class="xp-fill" style="width:70%"></div></div>
+              </div>
+              <span class="profit-badge gold">~60-120 FLOWER/WEEK</span>
+              <span class="profit-badge blue">FOCUS: OIL + AUTOMATION</span>
+              <ul class="stage-tasks">
+                <li><span class="task-icon">🏜️</span><span data-i18n="s4.t1">Unlock Desert Island at Level 30 — access Oil Wells and Crop Machine automation</span></li>
+                <li><span class="task-icon">⚙️</span><span data-i18n="s4.t2">Build Crop Machine — queue 5 batches, runs offline while you sleep</span></li>
+                <li><span class="task-icon">💎</span><span data-i18n="s4.t3">Mine Crimstone consistently — unlocks Greenhouse, Sand Drills and eventually Obsidian</span></li>
+                <li><span class="task-icon">🌿</span><span data-i18n="s4.t4">Plant Greenhouse crops: Rice, Olive, Grape — any season, passive income</span></li>
+                <li><span class="task-icon">❤️</span><span data-i18n="s4.t5">Unlock Love Island — convert daily Love Charms into FLOWER (2x per day)</span></li>
+                <li><span class="task-icon">🔥</span><span data-i18n="s4.t6">Visit Inferno/Gunther — exchange Sunstone for extra resource nodes on your farm</span></li>
+              </ul>
+              <div class="stage-tips">
+                <p><strong data-i18n="tip.label">💡 PRO TIP:</strong> <span data-i18n="s4.tip">The Crop Machine running on Oil is game-changing. Set it up before bed with 5 batches queued and wake up to harvested crops. Pair with seasonal boosts for maximum yield. Oil drilling becomes your primary resource sink — budget accordingly.</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stage-connector"><div class="stage-orb" onclick="toggleStage('stage4')">🏜️</div></div>
+      </div>
+
+      <!-- STAGE 5 -->
+      <div class="stage fade-in" id="stage5">
+        <div class="stage-content">
+          <div class="stage-header" onclick="toggleStage('stage5')">
+            <span class="stage-level">LV 41-50</span>
+            <span class="stage-name" data-i18n="stage5.name">ENDGAME ARCHITECT<br>🌋 VOLCANO ISLAND</span>
+            <span class="stage-arrow">▼</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-body-inner">
+              <div class="xp-bar-wrap">
+                <div class="xp-label" data-i18n="xp.progress">STAGE PROGRESS</div>
+                <div class="xp-bar"><div class="xp-fill" style="width:88%"></div></div>
+              </div>
+              <span class="profit-badge gold">~120-200 FLOWER/WEEK</span>
+              <span class="profit-badge blue">FOCUS: OBSIDIAN + NFT</span>
+              <ul class="stage-tasks">
+                <li><span class="task-icon">🌋</span><span data-i18n="s5.t1">Unlock Volcano Island — access Lava Pits for Obsidian crafting (highest value resource)</span></li>
+                <li><span class="task-icon">💎</span><span data-i18n="s5.t2">Craft 1 Obsidian per week — sells for 15-30 FLOWER on marketplace (limited supply!)</span></li>
+                <li><span class="task-icon">🐾</span><span data-i18n="s5.t3">Get a Pet NFT — craft Shrines (Stag Shrine = -25% Oil well recovery time)</span></li>
+                <li><span class="task-icon">🛏️</span><span data-i18n="s5.t4">Build multiple beds for Farm Hands — stack wearable boosts (Chef Apron on every hand!)</span></li>
+                <li><span class="task-icon">🏆</span><span data-i18n="s5.t5">Participate in Auctions — bid on limited NFTs that 2-5x on secondary markets</span></li>
+                <li><span class="task-icon">👑</span><span data-i18n="s5.t6">Aim for Top 100 in Faction War weekly — bonus reward pool for top performers</span></li>
+              </ul>
+              <div class="stage-tips">
+                <p><strong data-i18n="tip.label">💡 PRO TIP:</strong> <span data-i18n="s5.tip">At this stage you should be running like a business. Obsidian is capped at 1 sale per week — never skip it. Farm Hands with stacked wearables can double your effective boost count. Consider the Craft Box for combining resources into high-value tradeable items.</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stage-connector"><div class="stage-orb" onclick="toggleStage('stage5')">🌋</div></div>
+      </div>
+
+      <!-- STAGE 6 -->
+      <div class="stage fade-in" id="stage6">
+        <div class="stage-content">
+          <div class="stage-header" onclick="toggleStage('stage6')">
+            <span class="stage-level">LV 51+</span>
+            <span class="stage-name" data-i18n="stage6.name">MASTER FARMER<br>🌻 MAXIMUM PROFIT</span>
+            <span class="stage-arrow">▼</span>
+          </div>
+          <div class="stage-body">
+            <div class="stage-body-inner">
+              <div class="xp-bar-wrap">
+                <div class="xp-label" data-i18n="xp.progress">STAGE PROGRESS</div>
+                <div class="xp-bar"><div class="xp-fill" style="width:100%"></div></div>
+              </div>
+              <span class="profit-badge gold">160-290 FLOWER/WEEK</span>
+              <span class="profit-badge purple">VIP RECOMMENDED</span>
+              <ul class="stage-tasks">
+                <li><span class="task-icon">🐄</span><span data-i18n="s6.t1">Run full Cow Dairy operation: 10-20 cows maxed with Abundant Harvest + Bale Economy skills</span></li>
+                <li><span class="task-icon">👨‍🍳</span><span data-i18n="s6.t2">Equip Chef Apron on primary Bumpkin — +20% FLOWER on ALL food deliveries</span></li>
+                <li><span class="task-icon">📊</span><span data-i18n="s6.t3">Use the full daily routine: Deliveries → Mining → Cooking → Digging → Fishing → Factions</span></li>
+                <li><span class="task-icon">🎯</span><span data-i18n="s6.t4">Sell only Crimstone and Gold from mining — skip Stone and Iron (flooded market)</span></li>
+                <li><span class="task-icon">🔄</span><span data-i18n="s6.t5">Execute Skill Reset every 180 days — priority: Betty's Friend, Abundant Harvest, Barnyard Rouse</span></li>
+                <li><span class="task-icon">🌕</span><span data-i18n="s6.t6">Full Moon nights: switch to fishing with Lure + Gold bait for Marine Marvel hunts (20-100 FLOWER each)</span></li>
+              </ul>
+              <div class="stage-tips">
+                <p><strong data-i18n="tip.label">💡 PRO TIP:</strong> <span data-i18n="s6.tip">You ARE the top players now. Your advantage is compound efficiency — every system you run feeds another. The Cow Dairy → Cooking → FLOWER Delivery loop is self-sustaining. Don't chase shiny distractions; protect and optimize your core loop every single day.</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="stage-connector"><div class="stage-orb" onclick="toggleStage('stage6')">👑</div></div>
+      </div>
+
+    </div><!-- end timeline -->
+  </div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- ===== COW DAIRY DEEP DIVE ===== -->
+<section id="cowdive">
+  <div class="cowdive-inner">
+    <div style="text-align:center; margin-bottom:40px;">
+      <span class="section-label" data-i18n="cow.label">DEEP DIVE #1 — MOST PROFITABLE</span>
+      <h2 class="section-title" data-i18n="cow.title">🐄 COW DAIRY OPERATION<br>THE META STRATEGY</h2>
+      <p class="section-desc" style="margin:0 auto; text-align:center;" data-i18n="cow.desc">The #1 most profitable activity in Sunflower Land. Milk feeds your Bakery. Leather builds your Oil Drills. Everything compounds.</p>
+    </div>
+
+    <!-- Production chain -->
+    <div class="cow-panel fade-in" style="margin-bottom:24px;">
+      <h3 data-i18n="cow.chain">THE PROFIT CHAIN 🔗</h3>
+      <div class="chain">
+        <div class="chain-item">🌾<br>GRAIN<br>FEED</div>
+        <span class="chain-arrow">→</span>
+        <div class="chain-item highlight">🐄<br>COWS<br>(10-20)</div>
+        <span class="chain-arrow">→</span>
+        <div class="chain-item">🥛<br>MILK</div>
+        <span class="chain-arrow">→</span>
+        <div class="chain-item">🎂<br>CAKES<br>BAKERY</div>
+        <span class="chain-arrow">→</span>
+        <div class="chain-item highlight">💐<br>FLOWER<br>DELIVERY</div>
+      </div>
+      <div class="chain" style="margin-top:8px;">
+        <div class="chain-item highlight">🐄<br>COWS</div>
+        <span class="chain-arrow">→</span>
+        <div class="chain-item">🪵<br>LEATHER</div>
+        <span class="chain-arrow">→</span>
+        <div class="chain-item">🛢️<br>OIL<br>DRILL</div>
+        <span class="chain-arrow">→</span>
+        <div class="chain-item">⛽<br>OIL</div>
+        <span class="chain-arrow">→</span>
+        <div class="chain-item highlight">💎<br>OBSIDIAN<br>CRAFT</div>
+        <span class="chain-arrow">→</span>
+        <div class="chain-item highlight">💐<br>MARKET<br>SALE</div>
+      </div>
+    </div>
+
+    <div class="cowdive-grid">
+      <!-- Profit Calculator -->
+      <div class="cow-panel fade-in">
+        <h3 data-i18n="calc.title">📊 PROFIT CALCULATOR</h3>
+        <div class="slider-wrap">
+          <label data-i18n="calc.cows">NUMBER OF COWS</label>
+          <input type="range" class="sfl-range" min="5" max="20" value="10" id="cowSlider" oninput="updateCalc()"/>
+          <div class="slider-val" id="cowVal">10 Cows</div>
+        </div>
+        <div class="slider-wrap">
+          <label data-i18n="calc.days">PRODUCTION DAYS</label>
+          <input type="range" class="sfl-range" min="3" max="10" value="7" id="daysSlider" oninput="updateCalc()"/>
+          <div class="slider-val" id="daysVal">7 Days</div>
+        </div>
+        <div class="slider-wrap">
+          <label data-i18n="calc.skill">SKILL BONUS (ABUNDANT HARVEST)</label>
+          <input type="range" class="sfl-range" min="0" max="1" step="0.1" value="0.2" id="skillSlider" oninput="updateCalc()"/>
+          <div class="slider-val" id="skillVal">+0.2</div>
+        </div>
+        <div style="margin-top:16px;">
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc.milk">🥛 Milk Produced</span>
+            <span class="calc-val" id="milkOut">70 units</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc.leather">🪵 Leather Produced</span>
+            <span class="calc-val" id="leatherOut">70 units</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc.cakes">🎂 Cakes Possible</span>
+            <span class="calc-val gold" id="cakesOut">~23 cakes</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc.flower.delivery">💐 FLOWER from Deliveries</span>
+            <span class="calc-val gold" id="flowerOut">~28 FLOWER</span>
+          </div>
+          <div class="calc-row">
+            <span class="calc-label" data-i18n="calc.leather.market">🛍️ Leather Market Value</span>
+            <span class="calc-val gold" id="leatherVal">~21 FLOWER</span>
+          </div>
+        </div>
+        <div class="calc-total">
+          <span class="label" data-i18n="calc.weekly">WEEKLY TOTAL</span>
+          <span class="val" id="totalOut">~49 FLOWER</span>
+        </div>
+        <p style="font-size:11px; color:#888; margin-top:8px; font-family:var(--body);" data-i18n="calc.note">*Estimates based on base game values. Skills and events can significantly increase output.</p>
+      </div>
+
+      <!-- Optimal Skill Build -->
+      <div class="cow-panel fade-in">
+        <h3 data-i18n="skills.title">⚡ OPTIMAL SKILL BUILD (COWS)</h3>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <span class="sname">ABUNDANT HARVEST</span>
+            <span class="sdesc">+0.2 Egg, Wool & Milk yield — works on ALL animals</span>
+          </div>
+          <div class="skill-item">
+            <span class="sname">HEALTHY LIVESTOCK</span>
+            <span class="sdesc">-50% sickness chance — stop wasting medicine</span>
+          </div>
+          <div class="skill-item">
+            <span class="sname">BALE ECONOMY</span>
+            <span class="sdesc">Bale improves milk & wool — better per-feed output</span>
+          </div>
+          <div class="skill-item">
+            <span class="sname">DOUBLE BALE</span>
+            <span class="sdesc">2x Bale effect — doubles your Bale Economy bonus</span>
+          </div>
+          <div class="skill-item">
+            <span class="sname">BARNYARD ROUSE</span>
+            <span class="sdesc">Wake ALL animals instantly — 5 day cooldown, use every time</span>
+          </div>
+          <div class="skill-item">
+            <span class="sname">CHONKY FEED</span>
+            <span class="sdesc">+50% pack size — fewer feedings needed for cows</span>
+          </div>
+          <div class="skill-item">
+            <span class="sname">RESTLESS ANIMALS</span>
+            <span class="sdesc">-10% sleep time — more production cycles per week</span>
+          </div>
+          <div class="skill-item">
+            <span class="sname">FINE FIBERS</span>
+            <span class="sdesc">+0.1 Leather & Merino Wool yield per feeding</span>
+          </div>
+        </div>
+        <div class="stage-tips" style="margin-top:14px;">
+          <p data-i18n="cow.skilltip"><strong>KEY COMBO:</strong> Barnyard Rouse (every 5 days) + Restless Animals = double production cycles. Time Barnyard Rouse on Double Delivery Day for maximum FLOWER from cakes.</p>
+        </div>
+      </div>
+
+      <!-- Daily Cow Routine -->
+      <div class="cow-panel fade-in">
+        <h3 data-i18n="cow.routine">📋 DAILY COW ROUTINE</h3>
+        <ul class="stage-tasks">
+          <li><span class="task-icon">⏰</span><span data-i18n="cr.1">00:00 UTC — Check Bounty Board FIRST before feeding (sell awake animals for Coins/Gems)</span></li>
+          <li><span class="task-icon">🎵</span><span data-i18n="cr.2">Feed cows with Music Box equipped — prevents sickness without Alternate Medicine</span></li>
+          <li><span class="task-icon">💪</span><span data-i18n="cr.3">Every 5 days: Use Barnyard Rouse — instantly wake ALL animals for a bonus cycle</span></li>
+          <li><span class="task-icon">🥛</span><span data-i18n="cr.4">Immediately send Milk to Bakery queue — never let it sit idle in storage</span></li>
+          <li><span class="task-icon">🪵</span><span data-i18n="cr.5">Leather: Queue for Oil Drill crafting first, only sell excess on marketplace</span></li>
+          <li><span class="task-icon">📦</span><span data-i18n="cr.6">Weekly bounty: Sell up to 5 cows for Gems — replenish from breeding if needed</span></li>
+        </ul>
+      </div>
+
+      <!-- Market Reality -->
+      <div class="cow-panel fade-in">
+        <h3 data-i18n="cow.market">💹 MARKET REALITY</h3>
+        <ul class="stage-tasks">
+          <li><span class="task-icon">✅</span><span data-i18n="mr.1"><strong>Milk & Leather can't be withdrawn</strong> (post-Ch.6) — no external dumping = stable prices</span></li>
+          <li><span class="task-icon">✅</span><span data-i18n="mr.2"><strong>Leather sells within minutes</strong> of listing — every advancing player needs Oil Drills</span></li>
+          <li><span class="task-icon">✅</span><span data-i18n="mr.3"><strong>10% marketplace tax applies</strong> — but high per-unit value of leather absorbs this easily</span></li>
+          <li><span class="task-icon">⚠️</span><span data-i18n="mr.4"><strong>Don't sell Milk</strong> — always convert to Cakes for 3-5x the FLOWER value via deliveries</span></li>
+          <li><span class="task-icon">⚠️</span><span data-i18n="mr.5"><strong>Hoarder limit</strong> on Leather — list in batches of 20-50 to stay under limit and move faster</span></li>
+          <li><span class="task-icon">💡</span><span data-i18n="mr.6"><strong>Split listings:</strong> 5-10 Leather per listing (not 500) — smaller batches sell much faster</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- ===== DAILY CHECKLIST ===== -->
+<section id="daily">
+  <div class="daily-inner">
+    <div style="text-align:center; margin-bottom:40px;">
+      <span class="section-label" data-i18n="daily.label">INTERACTIVE DAILY PLANNER</span>
+      <h2 class="section-title" data-i18n="daily.title">📅 YOUR DAILY ROUTINE<br>OPTIMIZED FOR 2 HOURS</h2>
+      <p class="section-desc" style="margin:0 auto; text-align:center;" data-i18n="daily.desc">Click each task to check it off. Progress resets at 00:00 UTC daily. Never miss a FLOWER delivery again.</p>
+    </div>
+
+    <!-- SESSION 1 -->
+    <div class="session-block fade-in">
+      <div class="session-header">
+        <span class="session-time">⏰ 00:00 UTC</span>
+        <span class="session-name" data-i18n="sess1.name">☀️ MORNING RESET — HIGHEST PRIORITY</span>
+        <span class="session-dur" data-i18n="sess1.dur">45 MIN</span>
+      </div>
+      <ul class="checklist" id="list1">
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">📦</span><span class="check-text" data-i18n="d1.1">Open Daily Chest + VIP Chest</span><span class="priority-tag" data-i18n="tag.critical">CRITICAL</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">📅</span><span class="check-text" data-i18n="d1.2">Check Calendar — identify today's weather event</span><span class="priority-tag" data-i18n="tag.critical">CRITICAL</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🐄</span><span class="check-text" data-i18n="d1.3">Check Animal Bounty Board FIRST (before feeding!)</span><span class="priority-tag" data-i18n="tag.critical">CRITICAL</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">💪</span><span class="check-text" data-i18n="d1.4">Use Barnyard Rouse if off cooldown (every 5 days)</span><span class="priority-tag med" data-i18n="tag.high">HIGH</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🐄</span><span class="check-text" data-i18n="d1.5">Feed Cows → Chickens → Sheep in that order</span><span class="priority-tag" data-i18n="tag.critical">CRITICAL</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">⛏️</span><span class="check-text" data-i18n="d1.6">Mine Crimstone + Gold nodes (skip Stone/Iron)</span><span class="priority-tag med" data-i18n="tag.high">HIGH</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🌱</span><span class="check-text" data-i18n="d1.7">Plant seasonal crops (check weather first — skip Tornado day!)</span><span class="priority-tag" data-i18n="tag.critical">CRITICAL</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">💐</span><span class="check-text" data-i18n="d1.8">Complete all 6 FLOWER NPC deliveries</span><span class="priority-tag" data-i18n="tag.critical">CRITICAL</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🌿</span><span class="check-text" data-i18n="d1.9">Plant/harvest Greenhouse: Rice, Olive, Grape</span><span class="priority-tag med" data-i18n="tag.high">HIGH</span></li>
+      </ul>
+      <div class="progress-wrap" id="prog1wrap">
+        <span class="progress-label" data-i18n="prog.label">MORNING PROGRESS</span>
+        <div class="progress-bar"><div class="progress-fill" id="prog1" style="width:0%"></div></div>
+        <span class="progress-count" id="count1">0/9</span>
+      </div>
+    </div>
+
+    <!-- SESSION 2 -->
+    <div class="session-block fade-in">
+      <div class="session-header">
+        <span class="session-time">⏰ MIDDAY</span>
+        <span class="session-name" data-i18n="sess2.name">🌤️ MIDDAY CHECK-IN — QUICK REFRESH</span>
+        <span class="session-dur" data-i18n="sess2.dur">15 MIN</span>
+      </div>
+      <ul class="checklist" id="list2">
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🍳</span><span class="check-text" data-i18n="d2.1">Collect cooked food → feed Bumpkin for XP</span><span class="priority-tag med" data-i18n="tag.high">HIGH</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🔄</span><span class="check-text" data-i18n="d2.2">Restart cooking queues in all 5 buildings (VIP: 4 slots each = 20 total)</span><span class="priority-tag" data-i18n="tag.critical">CRITICAL</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🌸</span><span class="check-text" data-i18n="d2.3">Gift flowers to 5 priority NPCs (Cornwell, Tywin, Finn, Raven, Bert)</span><span class="priority-tag med" data-i18n="tag.high">HIGH</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🐛</span><span class="check-text" data-i18n="d2.4">Check composters — collect bait, restart with new ingredients</span><span class="priority-tag low" data-i18n="tag.med">MED</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">❤️</span><span class="check-text" data-i18n="d2.5">Open Love Island (2x daily, 30 min) — trade Love Charms → FLOWER</span><span class="priority-tag med" data-i18n="tag.high">HIGH</span></li>
+      </ul>
+      <div class="progress-wrap">
+        <span class="progress-label" data-i18n="prog.label2">MIDDAY PROGRESS</span>
+        <div class="progress-bar"><div class="progress-fill" id="prog2" style="width:0%"></div></div>
+        <span class="progress-count" id="count2">0/5</span>
+      </div>
+    </div>
+
+    <!-- SESSION 3 -->
+    <div class="session-block fade-in">
+      <div class="session-header">
+        <span class="session-time">⏰ EVENING</span>
+        <span class="session-name" data-i18n="sess3.name">🌙 EVENING SESSION — DEEP ACTIVITIES</span>
+        <span class="session-dur" data-i18n="sess3.dur">60 MIN</span>
+      </div>
+      <ul class="checklist" id="list3">
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🏖️</span><span class="check-text" data-i18n="d3.1">Treasure Island: use all 25 daily dig attempts — maintain streak!</span><span class="priority-tag" data-i18n="tag.critical">CRITICAL</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🐟</span><span class="check-text" data-i18n="d3.2">Fish 20 rods — use Red Wigglers + Chum for max quality (Full Moon = Marine Marvel focus)</span><span class="priority-tag med" data-i18n="tag.high">HIGH</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🛡️</span><span class="check-text" data-i18n="d3.3">Faction Pet contribution + Faction Kitchen deliveries</span><span class="priority-tag med" data-i18n="tag.high">HIGH</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🎮</span><span class="check-text" data-i18n="d3.4">1 Minigame for daily Marks (rotate: Crops & Chickens, Mine Wack, Memory)</span><span class="priority-tag low" data-i18n="tag.med">MED</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">❤️</span><span class="check-text" data-i18n="d3.5">Love Island 2nd visit — check rotating Love Shop for FLOWER Box deals</span><span class="priority-tag med" data-i18n="tag.high">HIGH</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">📈</span><span class="check-text" data-i18n="d3.6">List Crimstone + Gold + Leather on marketplace (split into small batches)</span><span class="priority-tag med" data-i18n="tag.high">HIGH</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🤝</span><span class="check-text" data-i18n="d3.7">Send 3 Cheers to friends' farms — gift Pots/Monuments for social XP bonuses</span><span class="priority-tag low" data-i18n="tag.med">MED</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">⛽</span><span class="check-text" data-i18n="d3.8">Queue Crop Machine for overnight (5 batches) — fill Oil before bed</span><span class="priority-tag" data-i18n="tag.critical">CRITICAL</span></li>
+        <li onclick="toggleCheck(this)"><span class="check-box"></span><span class="check-icon">🎂</span><span class="check-text" data-i18n="d3.9">Verify standing inventory: 4+ of each top-tier food in storage for tomorrow's deliveries</span><span class="priority-tag" data-i18n="tag.critical">CRITICAL</span></li>
+      </ul>
+      <div class="progress-wrap">
+        <span class="progress-label" data-i18n="prog.label3">EVENING PROGRESS</span>
+        <div class="progress-bar"><div class="progress-fill" id="prog3" style="width:0%"></div></div>
+        <span class="progress-count" id="count3">0/9</span>
+      </div>
+    </div>
+
+    <!-- Reset button -->
+    <div style="text-align:center; margin-top:16px;">
+      <button onclick="resetAll()" style="font-family:var(--pixel); font-size:8px; padding:12px 24px; background:var(--red-light); color:white; border:2px solid var(--red); box-shadow:3px 3px 0 var(--red); cursor:pointer; letter-spacing:1px;" data-i18n="btn.reset">🔄 RESET ALL TASKS</button>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- ===== SEASONS ===== -->
+<section id="seasons">
+  <div class="seasons-inner">
+    <div style="text-align:center; margin-bottom:40px;">
+      <span class="section-label" data-i18n="season.label">7-DAY SEASON CYCLE</span>
+      <h2 class="section-title" data-i18n="season.title">🌍 SEASONAL STRATEGY GUIDE</h2>
+      <p class="section-desc" style="margin:0 auto; text-align:center;" data-i18n="season.desc">Click a season to see what to plant, what to fear and your power moves.</p>
+    </div>
+    <div class="season-tabs">
+      <button class="season-tab active" data-season="spring" onclick="setSeason('spring')">🌸 <span data-i18n="s.spring">SPRING</span></button>
+      <button class="season-tab" data-season="summer" onclick="setSeason('summer')">☀️ <span data-i18n="s.summer">SUMMER</span></button>
+      <button class="season-tab" data-season="autumn" onclick="setSeason('autumn')">🍂 <span data-i18n="s.autumn">AUTUMN</span></button>
+      <button class="season-tab" data-season="winter" onclick="setSeason('winter')">❄️ <span data-i18n="s.winter">WINTER</span></button>
+    </div>
+    <div id="panel-spring" class="season-panel active">
+      <div class="season-grid">
+        <div class="season-col">
+          <h4 data-i18n="season.crops">🌱 CROPS TO PLANT</h4>
+          <ul>
+            <li>🥕 Carrots</li><li>🥬 Cabbages</li>
+            <li>🫘 Beans</li><li>🫐 Beetroots</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.fruits">🍓 FRUITS TO GROW</h4>
+          <ul>
+            <li>🫐 Blueberries</li>
+            <li>🍊 Oranges</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.equip">🛡️ EQUIP</h4>
+          <ul>
+            <li>👗 Blossom Ward (+1 crop)</li>
+            <li>🐝 Short Pickings (2x speed)</li>
+            <li>🍄 Mangrove (vs Tsunami)</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.events">⚡ WATCH FOR</h4>
+          <ul>
+            <li>✅ Bountiful Harvest</li>
+            <li>✅ Sunshower (2x speed)</li>
+            <li>⚠️ Tsunami — place Mangrove!</li>
+            <li>⚠️ Insect Plague</li>
+          </ul>
+        </div>
+      </div>
+      <div class="season-power">
+        <p data-i18n="spring.power">💪 <strong>SPRING POWER MOVE:</strong> Sprout Mix (+0.2) + Bee Swarm (+0.2) + Blossom Ward (+1) + Bountiful Harvest (+1) = each carrot plot yields 3-4 carrots! Stack all four for maximum output on Bountiful Harvest days.</p>
+      </div>
+      <div class="season-warning">
+        <p data-i18n="spring.warn">⚠️ <strong>TSUNAMI WARNING:</strong> Place your Mangrove ONE DAY BEFORE the event appears. Don't plant new seeds on Tsunami/Insect Plague days — you'll lose them all.</p>
+      </div>
+    </div>
+    <div id="panel-summer" class="season-panel">
+      <div class="season-grid">
+        <div class="season-col">
+          <h4 data-i18n="season.crops">🌱 CROPS TO PLANT</h4>
+          <ul>
+            <li>🍆 Eggplant</li><li>🌽 Corn</li>
+            <li>🌾 Radish</li><li>🌶️ Pepper</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.fruits">🍓 FRUITS TO GROW</h4>
+          <ul>
+            <li>🍅 Tomatoes</li>
+            <li>🍋 Lemons</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.equip">🛡️ EQUIP</h4>
+          <ul>
+            <li>🌞 Solflare Aegis (-50% growth)</li>
+            <li>🌪️ Tornado Pinwheel</li>
+            <li>🐝 Bee Box (Insect Plague)</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.events">⚡ WATCH FOR</h4>
+          <ul>
+            <li>✅ Fish Frenzy (+1 fish)</li>
+            <li>✅ Full Moon (Marine Marvels!)</li>
+            <li>⚠️ Tornado — place Pinwheel!</li>
+            <li>⚠️ Insect Plague</li>
+          </ul>
+        </div>
+      </div>
+      <div class="season-power">
+        <p data-i18n="summer.power">💪 <strong>SUMMER POWER MOVE:</strong> Full Moon + Eggplants + Solflare Aegis = fastest mature crops + Marine Marvel fishing window. Buy Moon Berry seeds during Full Moon for Lunar Doll crafting (Lava Pit → Volcano Island).</p>
+      </div>
+      <div class="season-warning">
+        <p data-i18n="summer.warn">⚠️ <strong>TORNADO WARNING:</strong> Place Tornado Pinwheel the day BEFORE the unknown event resolves as Tornado. If you don't have a Pinwheel, do NOT plant new seeds until the event resolves.</p>
+      </div>
+    </div>
+    <div id="panel-autumn" class="season-panel">
+      <div class="season-grid">
+        <div class="season-col">
+          <h4 data-i18n="season.crops">🌱 CROPS TO PLANT</h4>
+          <ul>
+            <li>🎃 Pumpkin</li><li>🍠 Yam</li>
+            <li>🥦 Broccoli</li><li>🧅 Onion</li><li>🌿 Artichoke</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.fruits">🍓 FRUITS TO GROW</h4>
+          <ul>
+            <li>🍎 Apples</li>
+            <li>🍌 Bananas</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.equip">🛡️ EQUIP</h4>
+          <ul>
+            <li>🍂 Autumn's Embrace (-50% growth)</li>
+            <li>🌪️ Tornado Pinwheel</li>
+            <li>🍌 Long Pickings (2x fruit speed)</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.events">⚡ WATCH FOR</h4>
+          <ul>
+            <li>✅ Bountiful Harvest (BEST season!)</li>
+            <li>✅ Sunshower (2x speed)</li>
+            <li>⚠️ Tornado — deadliest here</li>
+          </ul>
+        </div>
+      </div>
+      <div class="season-power">
+        <p data-i18n="autumn.power">💪 <strong>AUTUMN POWER MOVE:</strong> Most +1 crop bonuses of any season. Focus on long-cycle crops (Artichoke, Broccoli) with Bountiful Harvest + Autumn's Embrace. These have the highest XP and coin value per harvest.</p>
+      </div>
+      <div class="season-warning">
+        <p data-i18n="autumn.warn">⚠️ <strong>TORNADO RISK:</strong> Autumn has the highest Tornado frequency. ALWAYS have a Pinwheel placed before unknown events. Your Artichokes take 36 hours — losing them to a Tornado hurts badly.</p>
+      </div>
+    </div>
+    <div id="panel-winter" class="season-panel">
+      <div class="season-grid">
+        <div class="season-col">
+          <h4 data-i18n="season.crops">🌱 CROPS TO PLANT</h4>
+          <ul>
+            <li>🥦 Cauliflower</li><li>🌿 Parsnip</li>
+            <li>🍓 Rhubarb</li><li>🥬 Kale</li><li>🌱 Turnip</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.fruits">🍓 FRUITS (YEAR-ROUND)</h4>
+          <ul>
+            <li>🍅 Tomatoes</li>
+            <li>🍋 Lemons</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.equip">🛡️ EQUIP</h4>
+          <ul>
+            <li>❄️ Frozen Heart (+1 crop)</li>
+            <li>🔥 Heater (vs Great Freeze)</li>
+            <li>🌿 Greenhouse focus</li>
+          </ul>
+        </div>
+        <div class="season-col">
+          <h4 data-i18n="season.events">⚡ WATCH FOR</h4>
+          <ul>
+            <li>✅ Bountiful Harvest</li>
+            <li>✅ Fish Frenzy</li>
+            <li>⚠️ Great Freeze (worst event!)</li>
+            <li>⚠️ Tsunami</li>
+          </ul>
+        </div>
+      </div>
+      <div class="season-power">
+        <p data-i18n="winter.power">💪 <strong>WINTER POWER MOVE:</strong> Slower outdoor crops = perfect time to catch up on cooking backlog, process all composters for spring bait, and do deep oil drilling for spring automation. Greenhouse is your best friend in Winter.</p>
+      </div>
+      <div class="season-warning">
+        <p data-i18n="winter.warn">⚠️ <strong>GREAT FREEZE:</strong> The most devastating event in winter. A Heater placed BEFORE the event protects ALL your plots. Without it, all plots freeze and you can't harvest. This is the #1 coin-losing mistake in winter.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="pixel-divider"></div>
+
+<!-- ===== PROFIT TABLE ===== -->
+<section id="profit">
+  <div class="profit-inner">
+    <div style="text-align:center; margin-bottom:40px;">
+      <span class="section-label" data-i18n="profit.label">MARKET-ADJUSTED RANKINGS</span>
+      <h2 class="section-title" data-i18n="profit.title">💰 WHAT'S ACTUALLY MOST PROFITABLE</h2>
+      <p class="section-desc" style="margin:0 auto; text-align:center;" data-i18n="profit.desc">Based on real market dynamics, 10% trade tax, and demand patterns. Level 51 VIP, 2 hours/day.</p>
+    </div>
+    <div class="profit-table-wrap fade-in">
+      <table class="profit-table">
+        <thead>
+          <tr>
+            <th data-i18n="pt.rank">RANK</th>
+            <th data-i18n="pt.activity">ACTIVITY</th>
+            <th data-i18n="pt.flower">FLOWER/WEEK</th>
+            <th data-i18n="pt.usd">USD/WEEK</th>
+            <th data-i18n="pt.time">TIME/DAY</th>
+            <th data-i18n="pt.risk">RISK</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="top">
+            <td><span class="rank-medal">🥇</span></td>
+            <td><strong>🐄 Cow Dairy (Milk→Cakes + Leather)</strong></td>
+            <td><span class="flower-val">60-90</span></td>
+            <td><span class="dollar-val">$3-4.50</span></td>
+            <td><span class="time-val">10 MIN</span></td>
+            <td>✅ Zero</td>
+          </tr>
+          <tr class="top">
+            <td><span class="rank-medal">🥇</span></td>
+            <td><strong>💐 NPC FLOWER Deliveries (×6 daily)</strong></td>
+            <td><span class="flower-val">60-80</span></td>
+            <td><span class="dollar-val">$3-4</span></td>
+            <td><span class="time-val">15 MIN</span></td>
+            <td>✅ Zero</td>
+          </tr>
+          <tr>
+            <td><span class="rank-medal">🥈</span></td>
+            <td>💎 Obsidian Craft + Sale (1/week)</td>
+            <td><span class="flower-val">15-30</span></td>
+            <td><span class="dollar-val">$0.75-1.50</span></td>
+            <td><span class="time-val">5 MIN</span></td>
+            <td>✅ Low</td>
+          </tr>
+          <tr>
+            <td><span class="rank-medal">🥈</span></td>
+            <td>⛏️ Mining (Crimstone + Gold only)</td>
+            <td><span class="flower-val">30-50</span></td>
+            <td><span class="dollar-val">$1.50-2.50</span></td>
+            <td><span class="time-val">15 MIN</span></td>
+            <td>✅ Low</td>
+          </tr>
+          <tr>
+            <td><span class="rank-medal">🥉</span></td>
+            <td>❤️ Love Charms → FLOWER conversion</td>
+            <td><span class="flower-val">15-30</span></td>
+            <td><span class="dollar-val">$0.75-1.50</span></td>
+            <td><span class="time-val">10 MIN</span></td>
+            <td>✅ Zero</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">4</span></td>
+            <td>🏖️ Treasure Island (Streak 11+ days)</td>
+            <td><span class="flower-val">10-20</span></td>
+            <td><span class="dollar-val">$0.50-1</span></td>
+            <td><span class="time-val">15 MIN</span></td>
+            <td>⚡ Key RNG</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">5</span></td>
+            <td>🐄 Animal Bounty Board (weekly)</td>
+            <td><span class="flower-val">30-60</span></td>
+            <td><span class="dollar-val">$1.50-3</span></td>
+            <td><span class="time-val">5 MIN</span></td>
+            <td>✅ Zero</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">6</span></td>
+            <td>🛡️ Faction Marks → Eldric Items</td>
+            <td><span class="flower-val">10-20</span></td>
+            <td><span class="dollar-val">$0.50-1</span></td>
+            <td><span class="time-val">15 MIN</span></td>
+            <td>✅ Low</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">7</span></td>
+            <td>🐟 Marine Marvel Fishing (Full Moon)</td>
+            <td><span class="flower-val">0-100</span></td>
+            <td><span class="dollar-val">$0-5</span></td>
+            <td><span class="time-val">30 MIN</span></td>
+            <td>🎲 High RNG</td>
+          </tr>
+          <tr>
+            <td><span class="rank-num">8</span></td>
+            <td>🏛️ Auction NFT Minting</td>
+            <td><span class="flower-val">0-500+</span></td>
+            <td><span class="dollar-val">$0-25+</span></td>
+            <td><span class="time-val">WEEKLY</span></td>
+            <td>🎲 Speculative</td>
+          </tr>
+          <tr style="opacity:0.6;">
+            <td><span class="rank-num">9</span></td>
+            <td>❌ Raw Crop Sales (don't do this)</td>
+            <td><span class="flower-val" style="color:var(--red)">5-15</span></td>
+            <td><span class="dollar-val" style="color:var(--red)">$0.25-0.75</span></td>
+            <td><span class="time-val">VARIABLE</span></td>
+            <td>😬 Market Flood</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="background:var(--panel); border:3px solid var(--panel-border); box-shadow:var(--shadow); padding:24px; margin-top:24px; max-width:900px; margin-left:auto; margin-right:auto;">
+      <h3 style="font-family:var(--pixel); font-size:10px; color:var(--earth); margin-bottom:16px; letter-spacing:1px;" data-i18n="summary.title">📊 MONTHLY SUMMARY (LEVEL 51 VIP)</h3>
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:16px;">
+        <div style="text-align:center; background:var(--dark2); padding:16px;">
+          <div style="font-family:var(--pixel); font-size:8px; color:var(--cream); margin-bottom:8px;" data-i18n="sum.conservative">CONSERVATIVE</div>
+          <div style="font-family:var(--pixel); font-size:16px; color:var(--gold);">640</div>
+          <div style="font-family:var(--pixel); font-size:7px; color:var(--green-light);">FLOWER/MONTH</div>
+          <div style="font-family:var(--body); font-size:13px; color:var(--cream); margin-top:4px; opacity:0.7;">~$32/mo</div>
+        </div>
+        <div style="text-align:center; background:var(--dark2); padding:16px;">
+          <div style="font-family:var(--pixel); font-size:8px; color:var(--cream); margin-bottom:8px;" data-i18n="sum.optimistic">OPTIMISTIC</div>
+          <div style="font-family:var(--pixel); font-size:16px; color:var(--gold);">1,160</div>
+          <div style="font-family:var(--pixel); font-size:7px; color:var(--green-light);">FLOWER/MONTH</div>
+          <div style="font-family:var(--body); font-size:13px; color:var(--cream); margin-top:4px; opacity:0.7;">~$58/mo</div>
+        </div>
+        <div style="text-align:center; background:var(--dark2); padding:16px;">
+          <div style="font-family:var(--pixel); font-size:8px; color:var(--cream); margin-bottom:8px;" data-i18n="sum.nft">LUCKY NFT MONTH</div>
+          <div style="font-family:var(--pixel); font-size:16px; color:var(--gold);">2,000+</div>
+          <div style="font-family:var(--pixel); font-size:7px; color:var(--green-light);">FLOWER/MONTH</div>
+          <div style="font-family:var(--body); font-size:13px; color:var(--cream); margin-top:4px; opacity:0.7;">$100-300+</div>
+        </div>
+        <div style="text-align:center; background:var(--dark2); padding:16px;">
+          <div style="font-family:var(--pixel); font-size:8px; color:var(--cream); margin-bottom:8px;" data-i18n="sum.yearly">YEARLY POTENTIAL</div>
+          <div style="font-family:var(--pixel); font-size:16px; color:var(--gold);">$400-2.5K</div>
+          <div style="font-family:var(--pixel); font-size:7px; color:var(--green-light);">USD/YEAR</div>
+          <div style="font-family:var(--body); font-size:13px; color:var(--cream); margin-top:4px; opacity:0.7;">with smart NFT plays</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<div class="pixel-divider"></div>
+<footer>
+  <div class="footer-sunflowers">🌻🌻🌻🌻🌻</div>
+  <p>🌻 SUNFLOWER LAND MASTER GUIDE 🌻</p>
+  <p data-i18n="footer.built">BUILT WITH <span class="heart">❤️</span> FOR THE SFL COMMUNITY</p>
+  <p data-i18n="footer.disclaimer">NOT AFFILIATED WITH THOUGHT FARM STUDIO · GUIDE IS COMMUNITY-CREATED · FLOWER PRICE AT ~$0.05 (MAY 2026)</p>
+  <p style="margin-top:12px;">
+    <a href="https://docs.sunflower-land.com" style="color:var(--gold); font-family:var(--pixel); font-size:7px; letter-spacing:1px;">📚 OFFICIAL DOCS</a>
+    &nbsp;&nbsp;
+    <a href="https://wiki.sfl.world" style="color:var(--gold); font-family:var(--pixel); font-size:7px; letter-spacing:1px;">🌐 SFL WIKI</a>
+    &nbsp;&nbsp;
+    <a href="https://sfl.world" style="color:var(--gold); font-family:var(--pixel); font-size:7px; letter-spacing:1px;">🛠️ SFL TOOLS</a>
+  </p>
+</footer>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+// ===== TRANSLATIONS =====
+const i18n = {
+  en: {
+    "nav.about": "ABOUT", "nav.roadmap": "ROADMAP", "nav.cows": "COW GUIDE",
+    "nav.daily": "DAILY", "nav.seasons": "SEASONS", "nav.profit": "PROFIT",
+    "hero.title": "🌻 SUNFLOWER LAND\nMASTER GUIDE 🌻",
+    "hero.sub": "FROM NOOB TO PRO — LEVEL 1 TO ENDGAME\nTHE ONLY GUIDE YOU NEED",
+    "hero.cta": "▶ START YOUR JOURNEY",
+    "about.label": "WHAT IS THIS GUIDE?",
+    "about.title": "EVERYTHING YOU NEED TO\nMASTER SUNFLOWER LAND 🌻",
+    "about.desc": "Built by analyzing every game mechanic — farming, fishing, mining, animals, factions, minigames, markets and more. This is the definitive guide for players who want to turn their farm into a real profit machine.",
+    "about.card1.title": "NOOB → PRO ROADMAP", "about.card1.desc": "Step-by-step progression guide from your first seed to level 50+ endgame dominance. Every stage explained.",
+    "about.card2.title": "COW DAIRY MASTERY", "about.card2.desc": "The #1 most profitable strategy in the game. Full deep-dive with interactive profit calculator and optimal skill build.",
+    "about.card3.title": "DAILY ROUTINES", "about.card3.desc": "Interactive daily checklists so you never miss a delivery, bounty or event. Optimized for 2 hours of play per day.",
+    "about.card4.title": "SEASONAL STRATEGY", "about.card4.desc": "Know exactly what to plant, protect and prioritize in every season. Weather events, power moves and seasonal shields.",
+    "about.card5.title": "REAL PROFIT DATA", "about.card5.desc": "Market-adjusted rankings of every income source. Understand the 10% marketplace tax and how to work around it.",
+    "about.card6.title": "FACTIONS & EVENTS", "about.card6.desc": "When to join factions, how to earn Marks efficiently, and how to time NFT drops and auctions for maximum profit.",
+    "roadmap.label": "INTERACTIVE ROADMAP", "roadmap.title": "YOUR JOURNEY: NOOB → PRO 🏆",
+    "roadmap.desc": "Click each stage to expand your goals, tasks and pro tips.",
+    "stage1.name": "HUMBLE BEGINNINGS\n🌱 FIRST SEEDS", "stage2.name": "BUILDING YOUR EMPIRE\n🏗️ FIRST FLOWER",
+    "stage3.name": "INTERMEDIATE FARMER\n🌾 SYSTEMS THINKING", "stage4.name": "ADVANCED OPERATOR\n🏜️ DESERT ISLAND",
+    "stage5.name": "ENDGAME ARCHITECT\n🌋 VOLCANO ISLAND", "stage6.name": "MASTER FARMER\n🌻 MAXIMUM PROFIT",
+    "xp.progress": "STAGE PROGRESS", "tip.label": "💡 PRO TIP:",
+    "s1.tip": "Don't sell resources yet — you need every stone, iron and wood for building. Only sell excess crops for coins. Your goal right now is to reach Level 10 as fast as possible to unlock FLOWER deliveries.",
+    "s2.tip": "Always keep 4 of each cooked food in storage. The moment an NPC requests it, you can deliver instantly — maximizing your time for other activities. This 'standing inventory' strategy is used by all top players.",
+    "s3.tip": "This is when the game opens up. Start thinking in CHAINS, not individual activities. Cows produce Milk → feeds Bakery → produces Cakes → feeds FLOWER deliveries. Every resource should flow into the next system. Don't sell raw resources.",
+    "s4.tip": "The Crop Machine running on Oil is game-changing. Set it up before bed with 5 batches queued and wake up to harvested crops. Pair with seasonal boosts for maximum yield. Oil drilling becomes your primary resource sink — budget accordingly.",
+    "s5.tip": "At this stage you should be running like a business. Obsidian is capped at 1 sale per week — never skip it. Farm Hands with stacked wearables can double your effective boost count. Consider the Craft Box for combining resources into high-value tradeable items.",
+    "s6.tip": "You ARE the top players now. Your advantage is compound efficiency — every system you run feeds another. The Cow Dairy → Cooking → FLOWER Delivery loop is self-sustaining. Don't chase shiny distractions; protect and optimize your core loop every single day.",
+    "cow.label": "DEEP DIVE #1 — MOST PROFITABLE",
+    "cow.title": "🐄 COW DAIRY OPERATION\nTHE META STRATEGY",
+    "cow.desc": "The #1 most profitable activity in Sunflower Land. Milk feeds your Bakery. Leather builds your Oil Drills. Everything compounds.",
+    "cow.chain": "THE PROFIT CHAIN 🔗",
+    "calc.title": "📊 PROFIT CALCULATOR",
+    "calc.cows": "NUMBER OF COWS", "calc.days": "PRODUCTION DAYS",
+    "calc.skill": "SKILL BONUS (ABUNDANT HARVEST)",
+    "calc.milk": "🥛 Milk Produced", "calc.leather": "🪵 Leather Produced",
+    "calc.cakes": "🎂 Cakes Possible", "calc.flower.delivery": "💐 FLOWER from Deliveries",
+    "calc.leather.market": "🛍️ Leather Market Value", "calc.weekly": "WEEKLY TOTAL",
+    "calc.note": "*Estimates based on base game values. Skills and events can significantly increase output.",
+    "skills.title": "⚡ OPTIMAL SKILL BUILD (COWS)",
+    "cow.skilltip": "<strong>KEY COMBO:</strong> Barnyard Rouse (every 5 days) + Restless Animals = double production cycles. Time Barnyard Rouse on Double Delivery Day for maximum FLOWER from cakes.",
+    "cow.routine": "📋 DAILY COW ROUTINE", "cow.market": "💹 MARKET REALITY",
+    "daily.label": "INTERACTIVE DAILY PLANNER",
+    "daily.title": "📅 YOUR DAILY ROUTINE\nOPTIMIZED FOR 2 HOURS",
+    "daily.desc": "Click each task to check it off. Progress resets at 00:00 UTC daily. Never miss a FLOWER delivery again.",
+    "sess1.name": "☀️ MORNING RESET — HIGHEST PRIORITY", "sess1.dur": "45 MIN",
+    "sess2.name": "🌤️ MIDDAY CHECK-IN — QUICK REFRESH", "sess2.dur": "15 MIN",
+    "sess3.name": "🌙 EVENING SESSION — DEEP ACTIVITIES", "sess3.dur": "60 MIN",
+    "prog.label": "MORNING PROGRESS", "prog.label2": "MIDDAY PROGRESS", "prog.label3": "EVENING PROGRESS",
+    "btn.reset": "🔄 RESET ALL TASKS",
+    "tag.critical": "CRITICAL", "tag.high": "HIGH", "tag.med": "MED",
+    "season.label": "7-DAY SEASON CYCLE", "season.title": "🌍 SEASONAL STRATEGY GUIDE",
+    "season.desc": "Click a season to see what to plant, what to fear and your power moves.",
+    "s.spring": "SPRING", "s.summer": "SUMMER", "s.autumn": "AUTUMN", "s.winter": "WINTER",
+    "season.crops": "🌱 CROPS TO PLANT", "season.fruits": "🍓 FRUITS TO GROW",
+    "season.equip": "🛡️ EQUIP", "season.events": "⚡ WATCH FOR",
+    "profit.label": "MARKET-ADJUSTED RANKINGS",
+    "profit.title": "💰 WHAT'S ACTUALLY MOST PROFITABLE",
+    "profit.desc": "Based on real market dynamics, 10% trade tax, and demand patterns. Level 51 VIP, 2 hours/day.",
+    "pt.rank": "RANK", "pt.activity": "ACTIVITY", "pt.flower": "FLOWER/WEEK",
+    "pt.usd": "USD/WEEK", "pt.time": "TIME/DAY", "pt.risk": "RISK",
+    "summary.title": "📊 MONTHLY SUMMARY (LEVEL 51 VIP)",
+    "sum.conservative": "CONSERVATIVE", "sum.optimistic": "OPTIMISTIC",
+    "sum.nft": "LUCKY NFT MONTH", "sum.yearly": "YEARLY POTENTIAL",
+    "footer.built": "BUILT WITH ❤️ FOR THE SFL COMMUNITY",
+    "footer.disclaimer": "NOT AFFILIATED WITH THOUGHT FARM STUDIO · GUIDE IS COMMUNITY-CREATED · FLOWER PRICE AT ~$0.05 (MAY 2026)",
+    "badge.earnings": "~5-15 FLOWER/WEEK", "badge.focus": "FOCUS: EXPANSION",
+    "badge.focus2": "FOCUS: DELIVERIES",
+  },
+  es: {
+    "nav.about": "ACERCA", "nav.roadmap": "MAPA", "nav.cows": "GUÍA VACAS",
+    "nav.daily": "DIARIO", "nav.seasons": "TEMPORADAS", "nav.profit": "GANANCIAS",
+    "hero.title": "🌻 SUNFLOWER LAND\nGUÍA MAESTRA 🌻",
+    "hero.sub": "DE NOVATO A PROFESIONAL — NIVEL 1 AL ENDGAME\nLA ÚNICA GUÍA QUE NECESITAS",
+    "hero.cta": "▶ INICIA TU VIAJE",
+    "about.label": "¿QUÉ ES ESTA GUÍA?",
+    "about.title": "TODO LO QUE NECESITAS PARA\nDOMINAR SUNFLOWER LAND 🌻",
+    "about.desc": "Construida analizando cada mecánica del juego — agricultura, pesca, minería, animales, facciones, minijuegos, mercados y más. La guía definitiva para convertir tu granja en una máquina de ganancias reales.",
+    "about.card1.title": "MAPA NOVATO → PRO", "about.card1.desc": "Guía de progresión paso a paso desde tu primera semilla hasta dominar el endgame nivel 50+.",
+    "about.card2.title": "MAESTRÍA LECHERÍA VACAS", "about.card2.desc": "La estrategia #1 más rentable del juego. Análisis completo con calculadora interactiva y build óptimo de habilidades.",
+    "about.card3.title": "RUTINAS DIARIAS", "about.card3.desc": "Listas de tareas interactivas para nunca perder una entrega, recompensa o evento. Optimizado para 2 horas diarias.",
+    "about.card4.title": "ESTRATEGIA TEMPORAL", "about.card4.desc": "Sabe exactamente qué plantar, proteger y priorizar en cada temporada. Eventos climáticos, movimientos poderosos y escudos.",
+    "about.card5.title": "DATOS REALES DE GANANCIAS", "about.card5.desc": "Rankings ajustados al mercado real. Entiende el impuesto del 10% del mercado y cómo maximizar a pesar de él.",
+    "about.card6.title": "FACCIONES Y EVENTOS", "about.card6.desc": "Cuándo unirse a facciones, cómo ganar Marcas eficientemente y cómo timing de drops NFT y subastas.",
+    "roadmap.label": "MAPA DE RUTA INTERACTIVO", "roadmap.title": "TU VIAJE: NOVATO → PRO 🏆",
+    "roadmap.desc": "Haz clic en cada etapa para expandir tus objetivos, tareas y consejos pro.",
+    "stage1.name": "HUMILDES COMIENZOS\n🌱 PRIMERAS SEMILLAS", "stage2.name": "CONSTRUYENDO TU IMPERIO\n🏗️ PRIMER FLOWER",
+    "stage3.name": "AGRICULTOR INTERMEDIO\n🌾 PENSAMIENTO SISTÉMICO", "stage4.name": "OPERADOR AVANZADO\n🏜️ ISLA DESIERTO",
+    "stage5.name": "ARQUITECTO DEL ENDGAME\n🌋 ISLA VOLCÁN", "stage6.name": "AGRICULTOR MAESTRO\n🌻 MÁXIMAS GANANCIAS",
+    "xp.progress": "PROGRESO DE ETAPA", "tip.label": "💡 CONSEJO PRO:",
+    "s1.tip": "No vendas recursos todavía — necesitas cada piedra, hierro y madera para construir. Solo vende cultivos excedentes por monedas. Tu objetivo ahora es llegar al Nivel 10 lo más rápido posible para desbloquear las entregas de FLOWER.",
+    "s2.tip": "Siempre mantén 4 de cada comida cocinada en almacenamiento. En el momento que un NPC lo solicite, puedes entregar al instante — maximizando tu tiempo para otras actividades. Esta estrategia de 'inventario permanente' la usan todos los top players.",
+    "s3.tip": "Aquí es cuando el juego se abre. Empieza a pensar en CADENAS, no en actividades individuales. Las vacas producen Leche → alimentan la Panadería → producen Pasteles → alimentan las entregas de FLOWER. Cada recurso debe fluir al siguiente sistema.",
+    "s4.tip": "La Máquina de Cultivos funcionando con Petróleo cambia el juego. Configúrala antes de dormir con 5 lotes en cola y despierta con cultivos cosechados. Combínala con bonificaciones de temporada para rendimiento máximo.",
+    "s5.tip": "En esta etapa deberías operar como un negocio. La Obsidiana está limitada a 1 venta por semana — nunca la omitas. Los Peones de Granja con accesorios apilados pueden duplicar tu conteo efectivo de beneficios.",
+    "s6.tip": "YA ERES un top player. Tu ventaja es la eficiencia compuesta — cada sistema que operas alimenta a otro. El bucle Lechería Vacas → Cocina → Entrega FLOWER es autosustentable. No persigas distracciones; protege y optimiza tu bucle central cada día.",
+    "cow.label": "ANÁLISIS PROFUNDO #1 — MÁS RENTABLE",
+    "cow.title": "🐄 OPERACIÓN LECHERÍA DE VACAS\nLA ESTRATEGIA META",
+    "cow.desc": "La actividad #1 más rentable en Sunflower Land. La Leche alimenta tu Panadería. El Cuero construye tus Taladros de Petróleo. Todo se multiplica.",
+    "cow.chain": "LA CADENA DE GANANCIAS 🔗",
+    "calc.title": "📊 CALCULADORA DE GANANCIAS",
+    "calc.cows": "NÚMERO DE VACAS", "calc.days": "DÍAS DE PRODUCCIÓN",
+    "calc.skill": "BONO DE HABILIDAD (COSECHA ABUNDANTE)",
+    "calc.milk": "🥛 Leche Producida", "calc.leather": "🪵 Cuero Producido",
+    "calc.cakes": "🎂 Pasteles Posibles", "calc.flower.delivery": "💐 FLOWER de Entregas",
+    "calc.leather.market": "🛍️ Valor Mercado del Cuero", "calc.weekly": "TOTAL SEMANAL",
+    "calc.note": "*Estimaciones basadas en valores base del juego. Habilidades y eventos pueden aumentar significativamente la producción.",
+    "skills.title": "⚡ BUILD ÓPTIMO DE HABILIDADES (VACAS)",
+    "cow.skilltip": "<strong>COMBO CLAVE:</strong> Barnyard Rouse (cada 5 días) + Restless Animals = ciclos de producción dobles. Usa Barnyard Rouse el Día de Doble Entrega para máximo FLOWER de pasteles.",
+    "cow.routine": "📋 RUTINA DIARIA DE VACAS", "cow.market": "💹 REALIDAD DEL MERCADO",
+    "daily.label": "PLANIFICADOR DIARIO INTERACTIVO",
+    "daily.title": "📅 TU RUTINA DIARIA\nOPTIMIZADA PARA 2 HORAS",
+    "daily.desc": "Haz clic en cada tarea para marcarla. El progreso se reinicia a las 00:00 UTC. Nunca más olvides una entrega de FLOWER.",
+    "sess1.name": "☀️ REINICIO MATUTINO — MÁXIMA PRIORIDAD", "sess1.dur": "45 MIN",
+    "sess2.name": "🌤️ REVISIÓN DEL MEDIODÍA — RÁPIDA", "sess2.dur": "15 MIN",
+    "sess3.name": "🌙 SESIÓN NOCTURNA — ACTIVIDADES PROFUNDAS", "sess3.dur": "60 MIN",
+    "prog.label": "PROGRESO MATUTINO", "prog.label2": "PROGRESO MEDIODÍA", "prog.label3": "PROGRESO NOCTURNO",
+    "btn.reset": "🔄 REINICIAR TODAS LAS TAREAS",
+    "tag.critical": "CRÍTICO", "tag.high": "ALTO", "tag.med": "MEDIO",
+    "season.label": "CICLO DE 7 DÍAS", "season.title": "🌍 GUÍA ESTRATEGIA ESTACIONAL",
+    "season.desc": "Haz clic en una temporada para ver qué plantar, qué temer y tus movimientos poderosos.",
+    "s.spring": "PRIMAVERA", "s.summer": "VERANO", "s.autumn": "OTOÑO", "s.winter": "INVIERNO",
+    "season.crops": "🌱 CULTIVOS A PLANTAR", "season.fruits": "🍓 FRUTAS A CULTIVAR",
+    "season.equip": "🛡️ EQUIPAR", "season.events": "⚡ PRESTAR ATENCIÓN",
+    "profit.label": "RANKINGS AJUSTADOS AL MERCADO",
+    "profit.title": "💰 QUÉ ES REALMENTE MÁS RENTABLE",
+    "profit.desc": "Basado en dinámicas reales del mercado, impuesto del 10% y patrones de demanda. Nivel 51 VIP, 2 horas/día.",
+    "pt.rank": "RANGO", "pt.activity": "ACTIVIDAD", "pt.flower": "FLOWER/SEMANA",
+    "pt.usd": "USD/SEMANA", "pt.time": "TIEMPO/DÍA", "pt.risk": "RIESGO",
+    "summary.title": "📊 RESUMEN MENSUAL (NIVEL 51 VIP)",
+    "sum.conservative": "CONSERVADOR", "sum.optimistic": "OPTIMISTA",
+    "sum.nft": "MES CON NFT SUERTE", "sum.yearly": "POTENCIAL ANUAL",
+    "footer.built": "HECHO CON ❤️ PARA LA COMUNIDAD SFL",
+    "footer.disclaimer": "NO AFILIADO CON THOUGHT FARM STUDIO · GUÍA CREADA POR LA COMUNIDAD · PRECIO FLOWER ~$0.05 (MAYO 2026)",
+    "badge.earnings": "~5-15 FLOWER/SEMANA", "badge.focus": "FOCO: EXPANSIÓN",
+    "badge.focus2": "FOCO: ENTREGAS",
+    // Stage tasks
+    "s1.t1": "Planta girasoles constantemente — mejor ratio XP/moneda a 1 minuto de crecimiento",
+    "s1.t2": "Tala árboles diariamente para madera — esencial para cada edificio y expansión",
+    "s1.t3": "Mina Piedra y Hierro — desbloquea más nodos de recursos con cada expansión",
+    "s1.t4": "Prioriza la expansión de terreno sobre todo — más parcelas = más poder",
+    "s1.t5": "Construye la Hoguera primero — cocina Sopa de Calabaza para 600 XP/hr para subir rápido",
+    "s1.t6": "Abre el Cofre Diario cada día — construye hábito y da recompensas gratuitas",
+    "s2.t1": "Construye Cocina + Panadería — desbloquea los mejores alimentos de entrega y XP",
+    "s2.t2": "Desbloquea Isla Petal en Nivel 12 — acceso a flores, colmenas y crimstonite",
+    "s2.t3": "Nivel 10: Inicia entregas diarias de NPC de FLOWER (primero Grimbly)",
+    "s2.t4": "Construye Gallinero — gallinas para huevos, huevos para pasteles, pasteles para FLOWER",
+    "s2.t5": "Únete a una facción en Nivel 7 — elige el 4to lugar (más barato: 5 FLOWER)",
+    "s2.t6": "Construye un Compostador para carnada — empieza a pescar para ingredientes de cocina",
+    "s3.t1": "Construye Granero + compra Vacas — inicia la cadena Leche→Cuero AHORA",
+    "s3.t2": "Maximiza colmenas junto a lechos de flores — espera el evento Enjambre (+0.2 rendimiento)",
+    "s3.t3": "Regala flores diariamente a 5 NPCs clave (Cornwell, Tywin, Finn, Raven, Bert) para Llaves Lujo",
+    "s3.t4": "Empieza a excavar en Isla Tesoro — mantén tu racha diaria (Día 11 = grandes recompensas)",
+    "s3.t5": "Instala los 5 edificios de cocina — desbloquea los 6 NPCs de entrega FLOWER para Nivel 25",
+    "s3.t6": "Compra protección climática — coloca Molinete de Tornado y Mangle ANTES de eventos",
+    "s4.t1": "Desbloquea Isla Desierto en Nivel 30 — acceso a Pozos de Petróleo y Máquina de Cultivos",
+    "s4.t2": "Construye Máquina de Cultivos — pon 5 lotes en cola, funciona sin conexión mientras duermes",
+    "s4.t3": "Mina Crimstonite consistentemente — desbloquea Invernadero, Taladros de Arena y Obsidiana",
+    "s4.t4": "Planta cultivos de Invernadero: Arroz, Aceituna, Uva — cualquier temporada, ingreso pasivo",
+    "s4.t5": "Desbloquea Isla del Amor — convierte Encantos de Amor diarios en FLOWER (2x por día)",
+    "s4.t6": "Visita Inferno/Gunther — intercambia Piedra Solar por nodos de recursos extra en tu granja",
+    "s5.t1": "Desbloquea Isla Volcán — acceso a Pozos de Lava para fabricar Obsidiana (recurso más valioso)",
+    "s5.t2": "Fabrica 1 Obsidiana por semana — se vende por 15-30 FLOWER (¡suministro limitado!)",
+    "s5.t3": "Consigue una Mascota NFT — fabrica Santuarios (Santuario Ciervo = -25% tiempo recuperación pozos)",
+    "s5.t4": "Construye múltiples camas para Peones — apila beneficios de accesorios (¡Delantal Chef en cada uno!)",
+    "s5.t5": "Participa en Subastas — puja por NFTs limitados que valen 2-5x en mercados secundarios",
+    "s5.t6": "Apunta al Top 100 en Guerra de Facciones semanal — pool de recompensas extra para los mejores",
+    "s6.t1": "Opera lechería completa de vacas: 10-20 vacas con habilidades Abundant Harvest + Bale Economy",
+    "s6.t2": "Equipa Delantal Chef en tu Bumpkin principal — +20% FLOWER en TODAS las entregas de comida",
+    "s6.t3": "Usa la rutina diaria completa: Entregas → Minería → Cocina → Excavación → Pesca → Facciones",
+    "s6.t4": "Solo vende Crimstonita y Oro de la minería — omite Piedra y Hierro (mercado saturado)",
+    "s6.t5": "Ejecuta Reinicio de Habilidades cada 180 días — prioridad: Betty's Friend, Abundant Harvest, Barnyard Rouse",
+    "s6.t6": "Noches de Luna Llena: cambia a pesca con Señuelo + carnada Dorada para cazar Marine Marvels (20-100 FLOWER c/u)",
+    // Cow tasks
+    "cr.1": "00:00 UTC — Revisa el Tablero de Recompensas PRIMERO antes de alimentar (vende animales despiertos por Monedas/Gemas)",
+    "cr.2": "Alimenta vacas con Caja de Música equipada — previene enfermedades sin Medicina Alternativa",
+    "cr.3": "Cada 5 días: Usa Barnyard Rouse — despierta TODOS los animales al instante para un ciclo bonus",
+    "cr.4": "Inmediatamente envía Leche a la cola de Panadería — nunca la dejes inactiva en almacenamiento",
+    "cr.5": "Cuero: Pon en cola para fabricar Taladros de Petróleo primero, solo vende excedente en el mercado",
+    "cr.6": "Recompensa semanal: Vende hasta 5 vacas por Gemas — repón desde reproducción si es necesario",
+    // Market reality
+    "mr.1": "<strong>Leche y Cuero no se pueden retirar</strong> (post-Cap.6) — sin descarga externa = precios estables",
+    "mr.2": "<strong>El Cuero se vende en minutos</strong> tras publicar — cada jugador que avanza necesita Taladros de Petróleo",
+    "mr.3": "<strong>Se aplica impuesto del 10%</strong> — pero el alto valor por unidad del cuero lo absorbe fácilmente",
+    "mr.4": "<strong>No vendas Leche</strong> — siempre conviértela en Pasteles para obtener 3-5x el valor en FLOWER vía entregas",
+    "mr.5": "<strong>Límite de almacenamiento</strong> de Cuero — publica en lotes de 20-50 para mantenerte bajo el límite y vender más rápido",
+    "mr.6": "<strong>Divide los listados:</strong> 5-10 Cuero por listado (no 500) — los lotes pequeños se venden mucho más rápido",
+    // Daily tasks
+    "d1.1": "Abrir Cofre Diario + Cofre VIP", "d1.2": "Revisar Calendario — identificar el evento climático de hoy",
+    "d1.3": "Revisar Tablero de Recompensas Animales PRIMERO (¡antes de alimentar!)",
+    "d1.4": "Usar Barnyard Rouse si no está en enfriamiento (cada 5 días)",
+    "d1.5": "Alimentar Vacas → Gallinas → Ovejas en ese orden",
+    "d1.6": "Minar nodos de Crimstonita + Oro (omitir Piedra/Hierro)",
+    "d1.7": "Plantar cultivos de temporada (revisar clima primero — ¡omitir día de Tornado!)",
+    "d1.8": "Completar las 6 entregas de NPC de FLOWER", "d1.9": "Plantar/cosechar Invernadero: Arroz, Aceituna, Uva",
+    "d2.1": "Recoger comida cocinada → alimentar Bumpkin para XP",
+    "d2.2": "Reiniciar colas de cocina en los 5 edificios (VIP: 4 espacios c/u = 20 total)",
+    "d2.3": "Regalar flores a 5 NPCs prioritarios (Cornwell, Tywin, Finn, Raven, Bert)",
+    "d2.4": "Revisar compostadores — recoger carnada, reiniciar con nuevos ingredientes",
+    "d2.5": "Abrir Isla del Amor (2x diario, 30 min) — cambiar Encantos de Amor → FLOWER",
+    "d3.1": "Isla Tesoro: usar todos los 25 intentos de excavación diarios — ¡mantener la racha!",
+    "d3.2": "Pescar 20 cañas — usar Lombrices Rojas + Cebo para máxima calidad (Luna Llena = enfoque Marine Marvel)",
+    "d3.3": "Contribución a Mascota de Facción + entregas de Cocina de Facción",
+    "d3.4": "1 Minijuego para Marcas diarias (rotar: Crops & Chickens, Mine Wack, Memory)",
+    "d3.5": "2da visita Isla del Amor — revisar Tienda Amor rotativa por ofertas de Caja FLOWER",
+    "d3.6": "Publicar Crimstonita + Oro + Cuero en el mercado (dividir en lotes pequeños)",
+    "d3.7": "Enviar 3 Vítores a granjas de amigos — regalar Ollas/Monumentos para XP social",
+    "d3.8": "Poner Máquina de Cultivos en cola para la noche (5 lotes) — llenar Petróleo antes de dormir",
+    "d3.9": "Verificar inventario permanente: 4+ de cada comida top en almacenamiento para las entregas de mañana",
+    "spring.power": "💪 <strong>MOVIMIENTO PODEROSO DE PRIMAVERA:</strong> Mezcla de Brote (+0.2) + Enjambre de Abejas (+0.2) + Escudo Flor (+1) + Cosecha Abundante (+1) = ¡cada parcela de zanahorias rinde 3-4 zanahorias! Apila los cuatro en días de Cosecha Abundante.",
+    "spring.warn": "⚠️ <strong>ALERTA TSUNAMI:</strong> Coloca tu Mangle UN DÍA ANTES de que aparezca el evento. No plantes semillas nuevas en días de Tsunami/Plaga de Insectos — perderás todo.",
+    "summer.power": "💪 <strong>MOVIMIENTO PODEROSO DE VERANO:</strong> Luna Llena + Berenjenas + Solflare Aegis = cultivos más rápidos + ventana de pesca Marine Marvel. Compra semillas Moon Berry durante Luna Llena para fabricar Muñecas Lunares (Pozo de Lava → Isla Volcán).",
+    "summer.warn": "⚠️ <strong>ALERTA TORNADO:</strong> Coloca el Molinete de Tornado el día ANTES de que el evento desconocido se revele como Tornado. Si no tienes Molinete, NO plantes semillas nuevas hasta que el evento se resuelva.",
+    "autumn.power": "💪 <strong>MOVIMIENTO PODEROSO DE OTOÑO:</strong> Más bonificaciones de +1 cultivo que cualquier otra temporada. Enfócate en cultivos de ciclo largo (Alcachofa, Brócoli) con Cosecha Abundante + Autumn's Embrace. Tienen el mayor XP y valor de monedas por cosecha.",
+    "autumn.warn": "⚠️ <strong>RIESGO DE TORNADO:</strong> El otoño tiene la mayor frecuencia de Tornados. SIEMPRE ten un Molinete colocado antes de eventos desconocidos. Tus Alcachofas tardan 36 horas — perderlas en un Tornado duele mucho.",
+    "winter.power": "💪 <strong>MOVIMIENTO PODEROSO DE INVIERNO:</strong> Cultivos exteriores más lentos = tiempo perfecto para al día con la cola de cocina, procesar todos los compostadores para carnada de primavera, y perforación profunda de petróleo para automatización primaveral.",
+    "winter.warn": "⚠️ <strong>GRAN CONGELAMIENTO:</strong> El evento más devastador en invierno. Un Calentador colocado ANTES del evento protege TODAS tus parcelas. Sin él, todas las parcelas se congelan y no puedes cosechar. Este es el error #1 de pérdida de monedas en invierno.",
+  }
+};
+
+let currentLang = localStorage.getItem('sfl_lang') || 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('sfl_lang', lang);
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.textContent === lang.toUpperCase());
+  });
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    const t = i18n[lang][key];
+    if (t !== undefined) {
+      if (el.tagName === 'INPUT') { el.placeholder = t; }
+      else { el.innerHTML = t.replace(/\n/g, '<br>'); }
+    }
+  });
+  document.documentElement.lang = lang;
+}
+
+// Init
+setLang(currentLang);
+
+// ===== ROADMAP TOGGLE =====
+function toggleStage(id) {
+  const stage = document.getElementById(id);
+  stage.classList.toggle('open');
+}
+
+// ===== SEASON TABS =====
+function setSeason(s) {
+  document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.season-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.season-tab[data-season="${s}"]`).classList.add('active');
+  document.getElementById(`panel-${s}`).classList.add('active');
+}
+
+// ===== CHECKLIST =====
+function toggleCheck(li) {
+  li.classList.toggle('done');
+  const box = li.querySelector('.check-box');
+  box.textContent = li.classList.contains('done') ? '✓' : '';
+  updateProgress();
+}
+
+function updateProgress() {
+  [
+    { list: 'list1', fill: 'prog1', count: 'count1' },
+    { list: 'list2', fill: 'prog2', count: 'count2' },
+    { list: 'list3', fill: 'prog3', count: 'count3' },
+  ].forEach(({ list, fill, count }) => {
+    const items = document.querySelectorAll(`#${list} li`);
+    const done = document.querySelectorAll(`#${list} li.done`).length;
+    const pct = items.length ? (done / items.length) * 100 : 0;
+    document.getElementById(fill).style.width = pct + '%';
+    document.getElementById(count).textContent = `${done}/${items.length}`;
+  });
+}
+
+function resetAll() {
+  document.querySelectorAll('.checklist li').forEach(li => {
+    li.classList.remove('done');
+    li.querySelector('.check-box').textContent = '';
+  });
+  updateProgress();
+}
+
+// ===== PROFIT CALCULATOR =====
+function updateCalc() {
+  const cows = parseInt(document.getElementById('cowSlider').value);
+  const days = parseInt(document.getElementById('daysSlider').value);
+  const skill = parseFloat(document.getElementById('skillSlider').value);
+
+  document.getElementById('cowVal').textContent = `${cows} Cows`;
+  document.getElementById('daysVal').textContent = `${days} Days`;
+  document.getElementById('skillVal').textContent = `+${skill.toFixed(1)}`;
+
+  const basePerCow = 1.2;
+  const cyclesPerWeek = Math.floor(days / 3);
+  const milkPerCow = (basePerCow + skill) * cyclesPerWeek;
+  const totalMilk = Math.floor(cows * milkPerCow);
+  const totalLeather = Math.floor(cows * milkPerCow * 0.9);
+
+  const cakes = Math.floor(totalMilk / 3);
+  const flowerFromDeliveries = Math.floor(cakes * 1.2);
+  const leatherValue = Math.floor(totalLeather * 0.3);
+  const total = flowerFromDeliveries + leatherValue;
+
+  document.getElementById('milkOut').textContent = `${totalMilk} units`;
+  document.getElementById('leatherOut').textContent = `${totalLeather} units`;
+  document.getElementById('cakesOut').textContent = `~${cakes} cakes`;
+  document.getElementById('flowerOut').textContent = `~${flowerFromDeliveries} FLOWER`;
+  document.getElementById('leatherVal').textContent = `~${leatherValue} FLOWER`;
+  document.getElementById('totalOut').textContent = `~${total} FLOWER`;
+}
+
+updateCalc();
+
+// ===== SCROLL ANIMATIONS =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ===== PARALLAX STARS =====
+document.addEventListener('mousemove', (e) => {
+  const x = (e.clientX / window.innerWidth - 0.5) * 10;
+  const y = (e.clientY / window.innerHeight - 0.5) * 10;
+  const sun = document.querySelector('.floating-sun');
+  if (sun) sun.style.transform = `translate(${x}px, ${y * 0.5}px)`;
+});
+
+// Open first stage by default
+document.getElementById('stage6').classList.add('open');
+</script>
+</body>
+</html>
