@@ -12,9 +12,9 @@
 
 ## 🌐 Live Site
 
-**👉 [View the Guide](https://YOUR-USERNAME.github.io/sunflower-land-guide)**
+**👉 [View the Guide](https://andcamac.github.io/sunflower-land-guide)**
 
-> Replace `YOUR-USERNAME` with your GitHub username after deploying.
+
 
 ---
 
