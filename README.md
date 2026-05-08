@@ -12,7 +12,7 @@
 
 ## 🌐 Live Site
 
-**👉 [View the Guide](https://andcamac.github.io/sunflower-land-guide)**
+**👉 [View the Guide](https://sunflowerland-noob-to-pro.vercel.app/))**
 
 
 
